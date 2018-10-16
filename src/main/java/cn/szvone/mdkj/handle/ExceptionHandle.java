@@ -16,10 +16,10 @@ public class ExceptionHandle {
     @ResponseBody
     public CommonRes handle(Exception e){
         logger.error(e.getMessage());
-        if (e.getClass().getName().equals("ArgException")){
+        if (e.getClass().getName().indexOf("ArgException")!=-1){
             return ResultUtil.error(-1,e.getMessage());
         }
-        if (e.getClass().getName().equals("AuthException")){
+        if (e.getClass().getName().indexOf("AuthException")!=-1){
             return ResultUtil.error(-1,e.getMessage());
         }
         return ResultUtil.error(500,"系统内部错误，错误类型:"+e.getClass().getName());

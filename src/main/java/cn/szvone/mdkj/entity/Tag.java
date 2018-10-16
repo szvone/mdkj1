@@ -5,6 +5,7 @@ import java.util.Date;
 public class Tag {
     private int id;
     private String mid;
+    private String nowmid;
     private String sid;
     private String sn;
     private String info;
@@ -17,6 +18,7 @@ public class Tag {
         return "Tag{" +
                 "id=" + id +
                 ", mid='" + mid + '\'' +
+                ", nowmid='" + nowmid + '\'' +
                 ", sid='" + sid + '\'' +
                 ", sn='" + sn + '\'' +
                 ", info='" + info + '\'' +
@@ -24,6 +26,14 @@ public class Tag {
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 '}';
+    }
+
+    public String getNowmid() {
+        return nowmid;
+    }
+
+    public void setNowmid(String nowmid) {
+        this.nowmid = nowmid;
     }
 
     public Date getCreateDate() {
