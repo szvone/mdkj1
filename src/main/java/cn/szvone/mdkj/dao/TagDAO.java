@@ -22,7 +22,7 @@ public interface TagDAO {
     @Select("select * from tag where sn = #{sn}")
     List<Tag> findBySn(@Param("sn")String sn);
 
-    @Insert({ "insert into tag(mid, nowmid, sid, sn, info, status, createDate, updateDate) values(#{mid}, #{nowmid}, #{sid}, #{sn}, #{info}, #{status}, #{createDate}, #{updateDate})" })
+    @Insert({ "insert into tag(mid, nowmid, sid, shopid, status, createDate, updateDate) values(#{mid}, #{nowmid}, #{sid}, #{shopid}, #{status}, #{createDate}, #{updateDate})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Tag tag);
 

@@ -21,10 +21,10 @@ public interface ShopDAO {
     @Delete("delete from user where id = #{id}")
     int del(@Param("id") int id);
 
-    @Update("update shop where id = #{shopid} set sales = sales + ${i},stock = stock - ${i}")
+    @Update("update shop set sales = sales + ${i},stock = stock - ${i} where id = #{shopid}")
     int setSales(@Param("shopid")int shopid, @Param("i") int i);
 
-    @Update("update shop where id = #{shopid} set stock = stock + ${i}")
+    @Update("update shop set stock = stock + ${i} where id = #{shopid}")
     int setStock(@Param("shopid")int shopid, @Param("i") int i);
 
 }

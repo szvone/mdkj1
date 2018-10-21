@@ -37,8 +37,6 @@ public class SwController {
      */
     @RequestMapping("/login")
     public CommonRes login(String username, String password, HttpSession session){
-
-
         if (username.equals("") || username == null){
             throw new ArgException("用户名不能为空");
         }
@@ -107,6 +105,8 @@ public class SwController {
         }
         return userService.register(username,password,bz);
     }
+
+
     /**
      * 删除用户
      * @param id    需要删除的用户ID
@@ -114,8 +114,19 @@ public class SwController {
      */
     @RequestMapping("/delUser")
     public CommonRes delUser(int id){
+        try{
+            String val = id +"";
+            if(val == null || "".equals(val)){
+                throw new ArgException("id不能为空");
+            }
+            id = Integer.valueOf(id);
+        } catch (Exception e){
+            throw new ArgException("id参数类型出错");
+        }
         return userService.delUser(id);
     }
+
+
     /**
      * 获取用户列表
      * @param page  获取第几页
@@ -124,6 +135,24 @@ public class SwController {
      */
     @RequestMapping("/getUserList")
     public CommonRes getUserList(int page,int limit){
+        String val1 = page + "";
+        String val2 = limit + "";
+        if(val1 == null || "".equals(val1)){
+            throw new ArgException("page不能为空");
+        }
+        if(val2 == null || "".equals(val2)){
+            throw new ArgException("limit不能为空");
+        }
+        try{
+           page = Integer.valueOf(page);
+        } catch (Exception e){
+            throw new ArgException("page参数类型出错");
+        }
+        try{
+            limit = Integer.valueOf(limit);
+        } catch (Exception e){
+            throw new ArgException("limit参数类型出错");
+        }
 
         return userService.getUserList(page,limit);
     }
@@ -140,7 +169,12 @@ public class SwController {
      */
     @RequestMapping("/addNode")
     public CommonRes addNode(String mid,String statement){
-
+        if(mid==null || mid.equals("")){
+            throw new ArgException("mid不能为空");
+        }
+        if(statement==null || statement.equals("")){
+            throw new ArgException("statement不能为空");
+        }
         return nodeService.addNode(mid,statement);
 
     }
@@ -168,13 +202,13 @@ public class SwController {
      */
     @RequestMapping("/addShop")
     public CommonRes addShop(String name,double money,String sn,String info){
-        if (name.equals("")){
+        if (name == null || name.equals("")){
             throw new ArgException("商品名不能为空");
         }
         if (money<0){
             throw new ArgException("商品售价错误");
         }
-        if (sn.equals("")){
+        if (sn == null || sn.equals("")){
             throw new ArgException("商品条形码不能为空");
         }
 
@@ -182,6 +216,7 @@ public class SwController {
 
         return ResultUtil.success();
     }
+
     /**
      * 删除商品
      * @param id    需要删除的商品id
@@ -189,8 +224,18 @@ public class SwController {
      */
     @RequestMapping("/delShop")
     public CommonRes delShop(int id){
+        try{
+            String val = id + "";
+            if(val == null || val.equals("")) {
+                throw new ArgException("id不能为空");
+            }
+            id = Integer.valueOf(id);
+        } catch (Exception e) {
+            throw new ArgException("id参数类型错误");
+        }
         return shopService.delShop(id);
     }
+
     /**
      * 获取商品列表
      * @param page      获取第几页
@@ -199,8 +244,27 @@ public class SwController {
      */
     @RequestMapping("/getShopList")
     public CommonRes getShopList(int page,int limit){
+        String val1 = page + "";
+        String val2 = limit + "";
+        if(val1 == null || "".equals(val1)){
+            throw new ArgException("page不能为空");
+        }
+        if(val2 == null || "".equals(val2)){
+            throw new ArgException("limit不能为空");
+        }
+        try{
+            page = Integer.valueOf(page);
+        } catch (Exception e){
+            throw new ArgException("page参数类型出错");
+        }
+        try{
+            limit = Integer.valueOf(limit);
+        } catch (Exception e){
+            throw new ArgException("limit参数类型出错");
+        }
         return shopService.getShopList(page,limit);
     }
+
     /**
      * 检索商品数据
      * @param name 商品标题关键字
@@ -208,6 +272,9 @@ public class SwController {
      */
     @RequestMapping("/getShops")
     public CommonRes getShops(String name){
+        if (name == null || name.equals("")){
+            throw new ArgException("name参数不能为空");
+        }
         return shopService.getShops(name);
     }
 

@@ -24,4 +24,5 @@
 /nbdist/
 /.nb-gradle/
 
-/scr/main/resources/*.yml
+
+/scr/main/resources/application.yml
