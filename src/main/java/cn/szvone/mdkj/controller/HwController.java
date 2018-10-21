@@ -13,21 +13,37 @@ public class HwController {
     @Autowired
     private TagService tagService;
 
-
+    /**
+     * 录入端，上传标签数据
+     * @param mid       母机ID
+     * @param sids      子机ID
+     * @param shopid    商品ID
+     * @return
+     */
     @RequestMapping("/setGoodsInfo")
-    public CommonRes setGoodsInfo(String mid,String sids,String sn,String info){
-        return tagService.setGoodsInfo(mid, sids, sn, info);
+    public CommonRes setGoodsInfo(int mid,String sids,int shopid){
+        return tagService.setGoodsInfo(mid, sids, shopid);
     }
 
+    /**
+     * 扫描机，上传扫描到的标签数据到服务器
+     * @param mid   母机ID
+     * @param sids  扫描到的子机ID
+     * @return
+     */
     @RequestMapping("/setAreaInfo")
-    public CommonRes setAreaInfo(String mid,String sids){
+    public CommonRes setAreaInfo(int mid,String sids){
 
         return tagService.setAreaInfo(mid,sids);
     }
 
-    @RequestMapping("/setSold")
-    public CommonRes setSold(String sid){
-
-        return tagService.setSold(sid);
+    /**
+     * 收银台，标记标签被卖出
+     * @param sid 子机ID
+     * @return
+     */
+    @RequestMapping("/setSales")
+    public CommonRes setSales(String sid){
+        return tagService.setSales(sid);
     }
 }

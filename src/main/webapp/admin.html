@@ -19,7 +19,9 @@
 
 
     <br><br>
-    <button class="layui-btn layui-btn-xs" onclick="adduser()">添加用户</button>
+    <button class="layui-btn layui-btn-xs" onclick="adduser()">用户管理</button>
+    <button class="layui-btn layui-btn-xs" onclick="addshop()">商品管理</button>
+    <button class="layui-btn layui-btn-xs" onclick="addnode()">添加母机</button>
     <button class="layui-btn layui-btn-xs" onclick="loginOut()">退出登录</button>
 
 
@@ -40,7 +42,7 @@
 <script>
 </script>
 <script>
-    $.post("/api/getMe",function (data) {
+    $.post("/api/sw/getMe",function (data) {
         if (data.code!=1){
             window.location.href = "index.html";
         }
@@ -48,7 +50,7 @@
     });
 
     function loginOut(){
-        $.post("/api/loginOut",function (data) {
+        $.post("/api/sw/loginOut",function (data) {
             layer.msg(data.msg);
             setTimeout('window.location.href = "index.html";',2000)
         });
@@ -62,14 +64,17 @@
         table.render({
             elem: '#demo'
             ,height: 312
-            ,url: '/api/getState' //数据接口
+            ,url: '/api/sw/getState' //数据接口
             ,cols: [[ //表头
                 {field: 'mid', title: '母机id', sort: true}
                 ,{field: 'sidsum', title: '在线子机数', sort: true}
                 ,{field: 'falseSidSum', title: '异常子机数', sort: true}
                 ,{field: 'trueSidSum', title: '正常子机数', sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:150}
-            ]]
+            ]],
+            response: {
+                statusCode: 1 //规定成功的状态码，默认：0
+            },
         });
 
         //监听行工具事件
@@ -94,12 +99,35 @@
     function adduser() {
         layer.open({
             type: 2,
-            title: '添加用户',
+            title: '用户管理',
             shadeClose: true,
             shade: false,
-            maxmin: true, //开启最大化最小化按钮
-            area: ['800px', '700px'],
-            content: 'adduser.html'
+            maxmin: false, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: 'userList.html'
+        });
+    }
+
+    function addnode() {
+        layer.open({
+            type: 2,
+            title: '添加母机',
+            shadeClose: true,
+            shade: false,
+            maxmin: false, //开启最大化最小化按钮
+            area: ['350px', '350px'],
+            content: 'addNode.html'
+        });
+    }
+    function addshop() {
+        layer.open({
+            type: 2,
+            title: '商品管理',
+            shadeClose: true,
+            shade: false,
+            maxmin: false, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: 'shopList.html'
         });
     }
 </script>

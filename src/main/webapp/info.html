@@ -23,7 +23,7 @@
 <script>
 </script>
 <script>
-    $.post("/api/getMe",function (data) {
+    $.post("/api/sw/getMe",function (data) {
         if (data.code!=1){
             window.location.href = "index.html";
         }
@@ -38,14 +38,17 @@
         table.render({
             elem: '#demo'
             ,height: 312
-            ,url: '/api/getMidInfo?mid=123' //数据接口
+            ,url: '/api/sw/getMidInfo?mid=123' //数据接口
             ,cols: [[ //表头
                 {field: 'mid', title: '母机id', sort: true}
                 ,{field: 'sid', title: '子机id', sort: true}
                 ,{field: 'sidNo', title: '子机条形码', sort: true}
                 ,{field: 'sidState', title: '状态', sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:150}
-            ]]
+            ]],
+            response: {
+                statusCode: 1 //规定成功的状态码，默认：0
+            },
         });
 
     });

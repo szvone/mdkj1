@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+
     <script src="layui/layui.js" charset="utf-8"></script>
 
     <style>
@@ -597,7 +598,7 @@
 </div>
 <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
-    $.post("/api/getMe",function (data) {
+    $.post("/api/sw/getMe",function (data) {
         if (data.code==1){
             window.location.href = "admin.html";
         }
@@ -609,7 +610,7 @@
         //监听提交
         form.on('submit(login)', function(data){
 
-            $.post("/api/login","username="+data.field.username+"&password="+data.field.password,function (data) {
+            $.post("/api/sw/login","username="+data.field.username+"&password="+data.field.password,function (data) {
                 layer.msg(data.msg);
                 if (data.code==1){
                     setTimeout('window.location.href = "admin.html";',2000)

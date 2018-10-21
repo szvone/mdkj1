@@ -1,5 +1,6 @@
 package cn.szvone.mdkj.service;
 
+import cn.szvone.mdkj.dao.ShopDAO;
 import cn.szvone.mdkj.dao.TagDAO;
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.Tag;
@@ -13,17 +14,19 @@ import java.util.Date;
 public class TagService {
     @Autowired
     private TagDAO tagDAO;
+    @Autowired
+    private ShopDAO shopDAO;
 
-    public CommonRes setGoodsInfo(String mid,String sids,String sn,String info){
+
+    public CommonRes setGoodsInfo(int mid,String sids,int shopid){
         int res = 0;
         String[] sid_sz = sids.split(",");
         for (String sid:sid_sz){
             Tag tag = new Tag();
             tag.setMid(mid);
-            tag.setNowmid("vone");
+            tag.setNowmid(-1);
             tag.setSid(sid);
-            tag.setSn(sn);
-            tag.setInfo(info);
+            tag.setShopid(shopid);
             tag.setStatus(1);
             tag.setCreateDate(new Date());
             tag.setUpdateDate(new Date());
@@ -31,10 +34,13 @@ public class TagService {
             res += tagDAO.insert(tag);
         }
 
+        shopDAO.setStock(shopid,res);
+
+
         return ResultUtil.success(res);
     }
 
-    public CommonRes setAreaInfo(String mid,String sids){
+    public CommonRes setAreaInfo(int mid,String sids){
 
         String[] sid_sz = sids.split(",");
         int res = 0;
@@ -45,9 +51,12 @@ public class TagService {
         return ResultUtil.success(res);
     }
 
-    public CommonRes setSold(String sid){
+    public CommonRes setSales(String sid){
+        Tag tag = tagDAO.findBySid(sid);
 
         int res = tagDAO.setStatus(0,sid);
+
+        shopDAO.setSales(tag.getShopid(),1);
 
         return ResultUtil.success(res);
     }

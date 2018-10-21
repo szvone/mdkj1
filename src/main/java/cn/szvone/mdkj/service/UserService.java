@@ -8,6 +8,8 @@ import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -40,6 +42,19 @@ public class UserService {
             throw new AuthException("密码错误");
         }
         return ResultUtil.success(user);
+    }
+
+    public CommonRes getUserList(int page,int limit){
+
+        List<User> users = userDAO.getUserList((page-1)*limit,limit);
+
+        return ResultUtil.success(users);
+    }
+
+    public CommonRes delUser(int id){
+        int i = userDAO.del(id);
+
+        return ResultUtil.success(i);
     }
 
 
