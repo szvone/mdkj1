@@ -15,56 +15,85 @@
 <body>
 
 <div style="padding: 5px">
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
-        <legend>添加用户</legend>
-    </fieldset>
+    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">-->
+        <!--<legend>添加用户</legend>-->
+    <!--</fieldset>-->
 
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                <input id="username" type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input">
+                <input id="password" type="text" name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <input type="text" name="bz" lay-verify="required" autocomplete="off" placeholder="请输入备注" class="layui-input">
+                <input id="bz" type="text" name="bz" lay-verify="required" autocomplete="off" placeholder="请输入备注" class="layui-input">
             </div>
         </div>
 
 
-        <input class="layui-btn" value="添加用户" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <input id="login" class="layui-btn" value="保存" lay-submit lay-filter="login" style="width:100%;" type="submit">
 
     </form>
 </div>
 <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var id = getQueryString("id");
+
+    if(id!=""){
+        $("#username").val(getQueryString("username"));
+        $("#password").val(getQueryString("password"));
+        $("#bz").val(getQueryString("bz"));
+    }
 
 
     layui.use(['form'], function(){
         var form = layui.form;
         //监听提交
         form.on('submit(login)', function(data){
+            if(id==null){
+                $.post("/api/sw/addUser","username="+data.field.username+"&password="+data.field.password+"&bz="+data.field.bz,function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==1){
+                        parent.myTable.reload()
+                        setTimeout('parent.layer.close(index);',1500)
+                    }
+                });
+                return false;
+            } else {
+                $.post("/api/sw/updateUser","id="+id+"&username="+data.field.username+"&password="+data.field.password+"&bz="+data.field.bz,function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==1){
+                        parent.myTable.reload()
+                        setTimeout('parent.layer.close(index);',1500)
+                    }
+                });
+                return false;
+            }
 
-            $.post("/api/sw/addUser","username="+data.field.username+"&password="+data.field.password+"&bz="+data.field.bz,function (data) {
-                layer.msg(data.msg);
-                if (data.code==1){
-                    setTimeout('parent.layer.close(index);',2000)
-                }
-            });
-            return false;
         });
     });
+
+    //获取url中get参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return decodeURI(r[2]);  //含中文
+        // return unescape(r[2]);
+        return null;
+    }
 </script>
 </body>
 </html>

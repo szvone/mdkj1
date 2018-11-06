@@ -15,62 +15,92 @@
 <body>
 
 <div style="padding: 5px">
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
-        <legend>添加商品</legend>
-    </fieldset>
+    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">-->
+        <!--<legend>添加商品</legend>-->
+    <!--</fieldset>-->
 
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">商品名</label>
             <div class="layui-input-block">
-                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+                <input id="name" type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入商品名" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">单价</label>
             <div class="layui-input-block">
-                <input type="text" name="money" lay-verify="required" autocomplete="off" placeholder="请输入商品单价" class="layui-input">
+                <input id="money" type="text" name="money" lay-verify="required" autocomplete="off" placeholder="请输入商品单价" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">条形码</label>
             <div class="layui-input-block">
-                <input type="text" name="sn" lay-verify="required" autocomplete="off" placeholder="请输入商品条形码" class="layui-input">
+                <input id="sn" type="text" name="sn" lay-verify="required" autocomplete="off" placeholder="请输入商品条形码" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">预留字段</label>
             <div class="layui-input-block">
-                <input type="text" name="info" lay-verify="required" autocomplete="off" placeholder="请输入商品其他详情" class="layui-input">
+                <input id="info" type="text" name="info" lay-verify="required" autocomplete="off" placeholder="请输入商品其他详情" class="layui-input">
             </div>
         </div>
 
-        <input class="layui-btn" value="添加商品" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <input class="layui-btn" value="保存" lay-submit lay-filter="login" style="width:100%;" type="submit">
 
     </form>
 </div>
 <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    var id = getQueryString("id");
 
+    if(id!=null) {
+        $("#name").val(getQueryString("name"));
+        $("#money").val(getQueryString("money"));
+        $("#info").val(getQueryString("info"));
+        $("#sn").val(getQueryString("sn"));
+    }
 
     layui.use(['form'], function(){
         var form = layui.form;
         //监听提交
         form.on('submit(login)', function(data){
+            if(id==null){
+                $.post("/api/sw/addShop","name="+data.field.name+"&money="+data.field.money+"&sn="+data.field.sn+"&info="+data.field.info+"&typeid=100",function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==1){
+                        parent.myTable.reload()
+                        setTimeout('parent.layer.close(index);',1500)
+                    }
+                });
+                return false;
+            } else {
+                $.post("/api/sw/updateShop","id="+id+"&name="+data.field.name+"&money="+data.field.money+"&sn="+data.field.sn+"&info="+data.field.info+"&typeid=101",function (data) {
+                    layer.msg(data.msg);
+                    if (data.code==1){
+                        parent.myTable.reload()
+                        setTimeout('parent.layer.close(index);',1500)
+                    }
+                });
+                return false;
+            }
 
-            $.post("/api/sw/addShop","name="+data.field.name+"&money="+data.field.money+"&sn="+data.field.sn+"&info="+data.field.info,function (data) {
-                layer.msg(data.msg);
-                if (data.code==1){
-                    setTimeout('parent.layer.close(index);',2000)
-                }
-            });
-            return false;
+
         });
     });
+
+
+    //获取url中get参数
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return decodeURI(r[2]);  //含中文
+        return null;
+    }
 </script>
 </body>
 </html>

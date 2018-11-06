@@ -16,7 +16,7 @@ public class ShopService {
     private ShopDAO shopDAO;
 
 
-    public CommonRes addShop(String name,double money,String sn,String info){
+    public CommonRes addShop(String name,double money,String sn,String info, int typeid){
 
         Shop shop = new Shop();
         shop.setName(name);
@@ -25,7 +25,7 @@ public class ShopService {
         shop.setInfo(info);
         shop.setSales(0);
         shop.setStock(0);
-
+        shop.setTypeid(typeid);
         int res = shopDAO.insert(shop);
 
 
@@ -35,7 +35,6 @@ public class ShopService {
 
     public CommonRes getShopList(int page,int limit){
         List<Shop> shops = shopDAO.getShopList((page-1)*limit,limit);
-
         CommonRes res = ResultUtil.success(shops);
         return res;
     }
@@ -43,13 +42,16 @@ public class ShopService {
 
     public CommonRes getShops(String name){
         List<Shop> shops = shopDAO.getShops(name);
-
         return ResultUtil.success(shops);
     }
 
     public CommonRes delShop(int id){
         int i = shopDAO.del(id);
-
         return ResultUtil.success(i);
+    }
+
+    public CommonRes updateShop(Shop shop) {
+        int result = shopDAO.updateShop(shop);
+        return ResultUtil.success(result);
     }
 }

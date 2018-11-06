@@ -1,19 +1,20 @@
 package cn.szvone.mdkj.controller;
 
 import cn.szvone.mdkj.dto.CommonRes;
+import cn.szvone.mdkj.entity.Node;
+import cn.szvone.mdkj.entity.Shop;
+import cn.szvone.mdkj.entity.Tag;
 import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.ArgException;
 import cn.szvone.mdkj.execptions.AuthException;
-import cn.szvone.mdkj.service.AdminService;
-import cn.szvone.mdkj.service.NodeService;
-import cn.szvone.mdkj.service.ShopService;
-import cn.szvone.mdkj.service.UserService;
+import cn.szvone.mdkj.service.*;
 import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/sw")
@@ -26,6 +27,8 @@ public class SwController {
     private ShopService shopService;
     @Autowired
     private NodeService nodeService;
+    @Autowired
+    private TagService tagService;
 
 
 
@@ -158,6 +161,35 @@ public class SwController {
     }
 
 
+    /**
+     * todo 测试
+     * 更新用户信息
+     * @param username
+     * @param password
+     * @param bz
+     * @param session
+     * @return
+     */
+    @RequestMapping("/updateUser")
+    public CommonRes updateUser(String username,String password,String bz,HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if(username==null || username.equals("")){
+            throw new ArgException("username不能为空");
+        }
+        if(password==null || password.equals("")){
+            throw new ArgException("password不能为空");
+        }
+        User u = new User();
+        int id = user.getId();
+        u.setId(id);
+        u.setPassword(password);
+        u.setStatement(bz);
+        u.setUsername(username);
+        return userService.updateUser(u);
+    }
 
 
 
@@ -178,6 +210,7 @@ public class SwController {
         return nodeService.addNode(mid,statement);
 
     }
+
     /**
      * 检索母机数据
      * @param name  母机所属区域关键字
@@ -189,7 +222,57 @@ public class SwController {
     }
 
 
+    /**
+     * todo 测试
+     * 更新母机信息
+     * @param id
+     * @param mid
+     * @param statement
+     * @return
+     */
+    @RequestMapping("/updateNode")
+    public CommonRes updateNode(int id, String mid, String statement){
+        if(mid==null || mid.equals("")){
+            throw new ArgException("mid不能为空");
+        }
+        if(statement==null || statement.equals("")){
+            throw new ArgException("statement不能为空");
+        }
+        String val = ""+id;
+        if(val==null || val.equals("")) {
+            throw new ArgException("id不能为空");
+        }
+        try{
+            id = Integer.valueOf(id);
+        } catch (Exception e) {
+            throw new ArgException("id类型参数错误");
+        }
+        Node node = new Node();
+        node.setId(id);
+        node.setMid(mid);
+        node.setStatement(statement);
+        return nodeService.updateNode(node);
+    }
 
+    /**
+     * 删除母机
+     * todo 测试
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteNode")
+    public CommonRes deleteNode(int id){
+        String val = ""+id;
+        if(val==null || val.equals("")) {
+            throw new ArgException("id不能为空");
+        }
+        try{
+            id = Integer.valueOf(id);
+        } catch (Exception e) {
+            throw new ArgException("id类型参数错误");
+        }
+        return nodeService.deleteNode(id);
+    }
 
 
     /**
@@ -201,7 +284,8 @@ public class SwController {
      * @return
      */
     @RequestMapping("/addShop")
-    public CommonRes addShop(String name,double money,String sn,String info){
+    public CommonRes addShop(String name,double money,String sn,String info,int typeid){
+        System.out.println("*****-----"+typeid);
         if (name == null || name.equals("")){
             throw new ArgException("商品名不能为空");
         }
@@ -211,11 +295,25 @@ public class SwController {
         if (sn == null || sn.equals("")){
             throw new ArgException("商品条形码不能为空");
         }
+        try {
+            money = Double.valueOf(money);
+        } catch (Exception e){
+            throw new ArgException("money参数类型出错");
+        }
+        String val1 = typeid+"";
+        if (val1 == null || val1.equals("")){
+            throw new ArgException("typeid不能为空");
+        }
+        try {
+            typeid = Integer.valueOf(typeid);
+        } catch (Exception e){
+            throw new ArgException("typeid参数类型出错");
+        }
 
-        shopService.addShop(name, money, sn, info);
-
+        shopService.addShop(name, money, sn, info, typeid);
         return ResultUtil.success();
     }
+
 
     /**
      * 删除商品
@@ -235,6 +333,7 @@ public class SwController {
         }
         return shopService.delShop(id);
     }
+
 
     /**
      * 获取商品列表
@@ -265,6 +364,7 @@ public class SwController {
         return shopService.getShopList(page,limit);
     }
 
+
     /**
      * 检索商品数据
      * @param name 商品标题关键字
@@ -272,15 +372,74 @@ public class SwController {
      */
     @RequestMapping("/getShops")
     public CommonRes getShops(String name){
-        if (name == null || name.equals("")){
-            throw new ArgException("name参数不能为空");
-        }
         return shopService.getShops(name);
     }
 
 
+    /**
+     * 更新商品信息
+     * todo 测试
+     * @param id
+     * @param name
+     * @param money
+     * @param sn
+     * @param info
+     * @param typeid
+     * @return
+     */
+    @RequestMapping("/updateShop")
+    public CommonRes updateShop(int id,String name,double money,String sn,String info,int typeid){
+        if (name == null || name.equals("")){
+            throw new ArgException("商品名不能为空");
+        }
+        if (money<0){
+            throw new ArgException("商品售价错误");
+        }
+        if (sn == null || sn.equals("")){
+            throw new ArgException("商品条形码不能为空");
+        }
+        String val = id+"";
+        if (val == null || val.equals("")){
+            throw new ArgException("id不能为空");
+        }
+        String val1 = typeid+"";
+        if (val1 == null || val1.equals("")){
+            throw new ArgException("typeid不能为空");
+        }
+        try {
+            typeid = Integer.valueOf(typeid);
+        } catch (Exception e){
+            throw new ArgException("typeid参数类型出错");
+        }
+        try {
+            id = Integer.valueOf(id);
+        } catch (Exception e){
+            throw new ArgException("id参数类型出错");
+        }
+        try {
+            money = Double.valueOf(money);
+        } catch (Exception e){
+            throw new ArgException("money参数类型出错");
+        }
+        Shop s = new Shop();
+        s.setMoney(money);
+        s.setSn(sn);
+        s.setName(name);
+        s.setInfo(info);
+        s.setId(id);
+        s.setTypeid(typeid);
+        return shopService.updateShop(s);
+    }
 
 
+    // 获取本母机下的所有正常标签
+    @RequestMapping("/areaInfo")
+    public CommonRes getAreaTag(String mid) {
+        if (mid == null || mid.equals("")){
+            throw new ArgException("母机id不能为空");
+        }
+        return tagService.getAreaTag(mid);
+    }
 
 
 

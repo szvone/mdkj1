@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ShopDAO {
 
-    @Insert({ "insert into shop(name, money, sn, info, sales, stock) values(#{name}, #{money}, #{sn}, #{info}, #{sales}, #{stock})" })
+    @Insert({ "insert into shop(name, money, sn, info, sales, stock, typeid) values(#{name}, #{money}, #{sn}, #{info}, #{sales}, #{stock}, #{typeid})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Shop shop);
 
@@ -27,4 +27,6 @@ public interface ShopDAO {
     @Update("update shop set stock = stock + ${i} where id = #{shopid}")
     int setStock(@Param("shopid")int shopid, @Param("i") int i);
 
+    @Update("update shop set name=#{name},money=#{money},sn=#{sn},info=#{info},typeid=#{typeid} where id=#{id}")
+    int updateShop(Shop shop);
 }

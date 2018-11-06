@@ -16,6 +16,7 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
+
     public CommonRes register(String username,String password,String bz){
         User user = new User();
         user.setUsername(username);
@@ -23,18 +24,13 @@ public class UserService {
         user.setStatement(bz);
         user.setStatus(1);
         user.setType(1);
-
         int id = userDAO.insert(user);
-
-
         return ResultUtil.success(id);
     }
 
 
     public CommonRes login(String username,String password){
-
         User user = userDAO.find(username);
-
         if (user == null) {
             throw new AuthException("用户不存在");
         }
@@ -44,18 +40,23 @@ public class UserService {
         return ResultUtil.success(user);
     }
 
+
     public CommonRes getUserList(int page,int limit){
-
         List<User> users = userDAO.getUserList((page-1)*limit,limit);
-
         return ResultUtil.success(users);
     }
 
+
     public CommonRes delUser(int id){
         int i = userDAO.del(id);
-
         return ResultUtil.success(i);
     }
+
+    public CommonRes updateUser(User u) {
+        int result = userDAO.updateUser(u);
+        return  ResultUtil.success(result);
+    }
+
 
 
 

@@ -21,5 +21,7 @@ public interface UserDAO {
     @Select("select * from user limit ${limit},${size}")
     List<User> getUserList(@Param("limit") int limit, @Param("size") int size);
 
+    @Update("update user set username=#{username}, password=#{password}, statement=#{statement} where id=#{id}")
+    int updateUser(User user);
 }
 

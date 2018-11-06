@@ -11,24 +11,32 @@ import java.util.List;
 
 @Service
 public class NodeService {
+
     @Autowired
     private NodeDAO nodeDAO;
 
     public CommonRes addNode(String mid,String statement){
-
         Node node = new Node();
         node.setMid(mid);
         node.setStatement(statement);
-
         int res = nodeDAO.insert(node);
-
         return ResultUtil.success(res);
     }
 
     public CommonRes getNodes(String name){
-
         List<Node> nodes = nodeDAO.getNodes(name);
-
         return ResultUtil.success(nodes);
     }
+
+    public CommonRes updateNode(Node node){
+        int res = nodeDAO.updateNode(node);
+        return ResultUtil.success(res);
+    }
+
+    public CommonRes deleteNode(int id){
+        int res = nodeDAO.deleteNode(id);
+        // todo 删除tag表中对应的子机数据
+        return ResultUtil.success(res);
+    }
+
 }

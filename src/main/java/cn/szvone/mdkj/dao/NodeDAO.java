@@ -14,4 +14,10 @@ public interface NodeDAO {
 
     @Select("select * from node where statement like '%${name}%'")
     List<Node> getNodes(@Param("name") String name);
+
+    @Update("update node set statement=#{statement}, mid=#{mid} where id=#{id}")
+    int updateNode(Node node);
+
+    @Delete("delete from node where id=#{id}")
+    int deleteNode(int id);
 }

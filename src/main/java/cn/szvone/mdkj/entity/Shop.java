@@ -8,6 +8,7 @@ public class Shop {
     private String info;
     private int sales;
     private int stock;
+    private int typeid;
 
     @Override
     public String toString() {
@@ -19,7 +20,16 @@ public class Shop {
                 ", info='" + info + '\'' +
                 ", sales=" + sales +
                 ", stock=" + stock +
+                ", typeid=" + typeid +
                 '}';
+    }
+
+    public int getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(int typeid) {
+        this.typeid = typeid;
     }
 
     public int getId() {

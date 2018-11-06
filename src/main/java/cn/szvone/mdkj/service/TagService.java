@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class TagService {
@@ -61,5 +62,9 @@ public class TagService {
         return ResultUtil.success(res);
     }
 
+    public CommonRes getAreaTag(String mid) {
+        List<Tag> tags = tagDAO.findByMid4(mid);
+        return ResultUtil.success(tags);
+    }
 
 }

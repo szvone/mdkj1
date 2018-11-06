@@ -613,7 +613,7 @@
             $.post("/api/sw/login","username="+data.field.username+"&password="+data.field.password,function (data) {
                 layer.msg(data.msg);
                 if (data.code==1){
-                    setTimeout('window.location.href = "admin.html";',2000)
+                    setTimeout('window.location.href = "admin.html";',1500)
 
                 }
             });
