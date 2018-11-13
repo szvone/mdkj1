@@ -21,7 +21,7 @@ public interface TagDAO {
     @Select("select * from tag where sn = #{sn}")
     List<Tag> findBySn(@Param("sn")String sn);
 
-    @Insert({ "insert into tag(mid, nowmid, sid, shopid, status, createDate, updateDate) values(#{mid}, #{nowmid}, #{sid}, #{shopid}, #{status}, #{createDate}, #{updateDate})" })
+    @Insert({ "insert into tag(mid, nowmid, sid, infoid, status, createDate, updateDate) values(#{mid}, #{nowmid}, #{sid}, #{infoid}, #{status}, #{createDate}, #{updateDate})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Tag tag);
 
@@ -30,6 +30,10 @@ public interface TagDAO {
 
     @Update("update tag set status = #{status} where sid = #{sid}")
     int setStatus(@Param("status")int status,@Param("sid")String sid);
+
+    @Update("update tag set infoid = #{infoid} where id = #{id}")
+    int addInfoId(@Param("id")int id,@Param("infoid")int infoid);
+
 
     // 查找本母机标签
     @Select("select * from tag where mid = #{mid} and nowmid = #{mid}")

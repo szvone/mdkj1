@@ -2,6 +2,7 @@ package cn.szvone.mdkj.controller;
 
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.Node;
+import cn.szvone.mdkj.entity.TagInfo;
 import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.ArgException;
 import cn.szvone.mdkj.execptions.AuthException;
@@ -24,6 +25,10 @@ public class SwController {
     private NodeService nodeService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private TypeService typeService;
+    @Autowired
+    private TagInfoService tagInfoService;
 
 
 
@@ -188,6 +193,13 @@ public class SwController {
 
 
 
+
+
+
+
+
+
+
     /**
      * 添加母机
      * @param mid       母机编号
@@ -268,6 +280,101 @@ public class SwController {
         }
         return nodeService.deleteNode(id);
     }
+
+
+
+
+
+
+    /**
+     * 增加分类
+     * @param name      分类名
+     * @param statement 分类备注
+     * @return
+     */
+    @RequestMapping("/addType")
+    public CommonRes addType(String name,String statement){
+        return typeService.addType(name,statement);
+    }
+
+    /**
+     * 删除分类
+     * @param id 分类ID
+     * @return
+     */
+    @RequestMapping("/delType")
+    public CommonRes delType(int id){
+        return typeService.delType(id);
+    }
+
+    /**
+     * 拉取分类列表
+     * @return
+     */
+    @RequestMapping("/getTypes")
+    public CommonRes getTypes(){
+        return typeService.getTypes();
+    }
+
+    /**
+     * 编辑分类
+     * @param id        分类ID
+     * @param name      分类名
+     * @param statement 分类简介
+     * @return
+     */
+    @RequestMapping("/editType")
+    public CommonRes editType(int id,String name,String statement){
+        return typeService.editType(id,name,statement);
+    }
+
+
+
+
+
+
+    /**
+     * 扫码设置标签信息
+     * @param tagid      标签ID
+     * @param tagInfo    标签信息
+     * @return
+     */
+    @RequestMapping("/addTagInfo")
+    public CommonRes addTagInfo(int tagid, TagInfo tagInfo){
+        return tagInfoService.addTagInfo(tagid,tagInfo);
+    }
+
+    /**
+     * 删除标签信息
+     * @param id 分类ID
+     * @return
+     */
+    @RequestMapping("/delTagInfo")
+    public CommonRes delTagInfo(int id){
+        return ResultUtil.error(-1,"标签信息不可删除");
+        //return tagInfoService.delTagInfo(id);
+    }
+
+    /**
+     * 拉取标签信息
+     * @param tagid 标签id
+     * @return
+     */
+    @RequestMapping("/getTagInfo")
+    public CommonRes getTagInfo(int tagid){
+        return tagInfoService.getTagInfo(tagid);
+    }
+
+    /**
+     * 编辑标签信息
+     * @param tagInfo    标签信息
+     * @return
+     */
+    @RequestMapping("/editType")
+    public CommonRes editTagInfo(TagInfo tagInfo){
+        return tagInfoService.editTagInfo(tagInfo);
+    }
+
 
 
 

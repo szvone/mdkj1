@@ -6,7 +6,6 @@ public class TagInfo {
   private long id;
   private String name;
   private long uid;
-  private String sn;
   private String info;
   private long typeid;
   private String inarea;
@@ -37,15 +36,6 @@ public class TagInfo {
 
   public void setUid(long uid) {
     this.uid = uid;
-  }
-
-
-  public String getSn() {
-    return sn;
-  }
-
-  public void setSn(String sn) {
-    this.sn = sn;
   }
 
 
