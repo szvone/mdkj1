@@ -370,7 +370,7 @@ public class SwController {
      * @param tagInfo    标签信息
      * @return
      */
-    @RequestMapping("/editType")
+    @RequestMapping("/editTagInfo")
     public CommonRes editTagInfo(TagInfo tagInfo){
         return tagInfoService.editTagInfo(tagInfo);
     }
