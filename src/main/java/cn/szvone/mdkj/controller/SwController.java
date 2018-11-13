@@ -2,8 +2,6 @@ package cn.szvone.mdkj.controller;
 
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.Node;
-import cn.szvone.mdkj.entity.Shop;
-import cn.szvone.mdkj.entity.Tag;
 import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.ArgException;
 import cn.szvone.mdkj.execptions.AuthException;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/sw")
@@ -23,8 +20,6 @@ public class SwController {
     private UserService userService;
     @Autowired
     private AdminService adminService;
-    @Autowired
-    private ShopService shopService;
     @Autowired
     private NodeService nodeService;
     @Autowired
@@ -275,161 +270,7 @@ public class SwController {
     }
 
 
-    /**
-     * 添加商品
-     * @param name  商品标题
-     * @param money 商品售价
-     * @param sn    商品条形码
-     * @param info  商品的其他信息，为json字符串
-     * @return
-     */
-    @RequestMapping("/addShop")
-    public CommonRes addShop(String name,double money,String sn,String info,int typeid){
-        System.out.println("*****-----"+typeid);
-        if (name == null || name.equals("")){
-            throw new ArgException("商品名不能为空");
-        }
-        if (money<0){
-            throw new ArgException("商品售价错误");
-        }
-        if (sn == null || sn.equals("")){
-            throw new ArgException("商品条形码不能为空");
-        }
-        try {
-            money = Double.valueOf(money);
-        } catch (Exception e){
-            throw new ArgException("money参数类型出错");
-        }
-        String val1 = typeid+"";
-        if (val1 == null || val1.equals("")){
-            throw new ArgException("typeid不能为空");
-        }
-        try {
-            typeid = Integer.valueOf(typeid);
-        } catch (Exception e){
-            throw new ArgException("typeid参数类型出错");
-        }
 
-        shopService.addShop(name, money, sn, info, typeid);
-        return ResultUtil.success();
-    }
-
-
-    /**
-     * 删除商品
-     * @param id    需要删除的商品id
-     * @return
-     */
-    @RequestMapping("/delShop")
-    public CommonRes delShop(int id){
-        try{
-            String val = id + "";
-            if(val == null || val.equals("")) {
-                throw new ArgException("id不能为空");
-            }
-            id = Integer.valueOf(id);
-        } catch (Exception e) {
-            throw new ArgException("id参数类型错误");
-        }
-        return shopService.delShop(id);
-    }
-
-
-    /**
-     * 获取商品列表
-     * @param page      获取第几页
-     * @param limit     一页获取多少个
-     * @return
-     */
-    @RequestMapping("/getShopList")
-    public CommonRes getShopList(int page,int limit){
-        String val1 = page + "";
-        String val2 = limit + "";
-        if(val1 == null || "".equals(val1)){
-            throw new ArgException("page不能为空");
-        }
-        if(val2 == null || "".equals(val2)){
-            throw new ArgException("limit不能为空");
-        }
-        try{
-            page = Integer.valueOf(page);
-        } catch (Exception e){
-            throw new ArgException("page参数类型出错");
-        }
-        try{
-            limit = Integer.valueOf(limit);
-        } catch (Exception e){
-            throw new ArgException("limit参数类型出错");
-        }
-        return shopService.getShopList(page,limit);
-    }
-
-
-    /**
-     * 检索商品数据
-     * @param name 商品标题关键字
-     * @return
-     */
-    @RequestMapping("/getShops")
-    public CommonRes getShops(String name){
-        return shopService.getShops(name);
-    }
-
-
-    /**
-     * 更新商品信息
-     * todo 测试
-     * @param id
-     * @param name
-     * @param money
-     * @param sn
-     * @param info
-     * @param typeid
-     * @return
-     */
-    @RequestMapping("/updateShop")
-    public CommonRes updateShop(int id,String name,double money,String sn,String info,int typeid){
-        if (name == null || name.equals("")){
-            throw new ArgException("商品名不能为空");
-        }
-        if (money<0){
-            throw new ArgException("商品售价错误");
-        }
-        if (sn == null || sn.equals("")){
-            throw new ArgException("商品条形码不能为空");
-        }
-        String val = id+"";
-        if (val == null || val.equals("")){
-            throw new ArgException("id不能为空");
-        }
-        String val1 = typeid+"";
-        if (val1 == null || val1.equals("")){
-            throw new ArgException("typeid不能为空");
-        }
-        try {
-            typeid = Integer.valueOf(typeid);
-        } catch (Exception e){
-            throw new ArgException("typeid参数类型出错");
-        }
-        try {
-            id = Integer.valueOf(id);
-        } catch (Exception e){
-            throw new ArgException("id参数类型出错");
-        }
-        try {
-            money = Double.valueOf(money);
-        } catch (Exception e){
-            throw new ArgException("money参数类型出错");
-        }
-        Shop s = new Shop();
-        s.setMoney(money);
-        s.setSn(sn);
-        s.setName(name);
-        s.setInfo(info);
-        s.setId(id);
-        s.setTypeid(typeid);
-        return shopService.updateShop(s);
-    }
 
 
     // 获取本母机下的所有正常标签

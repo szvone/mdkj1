@@ -18,13 +18,13 @@ public class HwController {
      * 录入端，上传标签数据
      * @param mid       母机ID
      * @param sids      子机ID
-     * @param shopid    商品ID
+     * @param infoid    商品ID
      * @return
      */
-    @RequestMapping("/setGoodsInfo")
-    public CommonRes setGoodsInfo(int mid,String sids,int shopid){
+    @RequestMapping("/setTagInfo")
+    public CommonRes setGoodsInfo(int mid,String sids,int infoid){
         String val1 = mid + "";
-        String val2 = shopid + "";
+        String val2 = infoid + "";
         if(val1 == null || "".equals(val1)){
             throw new ArgException("mid不能为空");
         }
@@ -34,17 +34,8 @@ public class HwController {
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
         }
-        try{
-            mid = Integer.valueOf(mid);
-        } catch (Exception e){
-            throw new ArgException("mid参数类型出错");
-        }
-        try{
-            shopid = Integer.valueOf(shopid);
-        } catch (Exception e){
-            throw new ArgException("shopid参数类型出错");
-        }
-        return tagService.setGoodsInfo(mid, sids, shopid);
+
+        return tagService.setGoodsInfo(mid, sids, infoid);
     }
 
     /**
@@ -71,16 +62,4 @@ public class HwController {
         return tagService.setAreaInfo(mid,sids);
     }
 
-    /**
-     * 收银台，标记标签被卖出
-     * @param sid 子机ID
-     * @return
-     */
-    @RequestMapping("/setSales")
-    public CommonRes setSales(String sid){
-        if(sid==null || "".equals(sid)) {
-            throw new ArgException("sid不能为空");
-        }
-        return tagService.setSales(sid);
-    }
 }

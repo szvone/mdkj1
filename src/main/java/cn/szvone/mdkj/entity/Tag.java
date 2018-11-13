@@ -1,92 +1,89 @@
 package cn.szvone.mdkj.entity;
 
+
 import java.util.Date;
 
 public class Tag {
-    private int id;
-    private int mid;
-    private int nowmid;
-    private String sid;
-    private int shopid;
-    private int status;
-    private Date createDate;
-    private Date updateDate;
 
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", mid=" + mid +
-                ", nowmid=" + nowmid +
-                ", sid='" + sid + '\'' +
-                ", shopid=" + shopid +
-                ", status=" + status +
-                ", createDate=" + createDate +
-                ", updateDate=" + updateDate +
-                '}';
-    }
+  private long id;
+  private int mid;
+  private int nowmid;
+  private String sid;
+  private long infoid;
+  private long status;
+  private Date createDate;
+  private Date updateDate;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public int getMid() {
-        return mid;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setMid(int mid) {
-        this.mid = mid;
-    }
 
-    public int getNowmid() {
-        return nowmid;
-    }
+  public int getMid() {
+    return mid;
+  }
 
-    public void setNowmid(int nowmid) {
-        this.nowmid = nowmid;
-    }
+  public void setMid(int mid) {
+    this.mid = mid;
+  }
 
-    public String getSid() {
-        return sid;
-    }
 
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
+  public int getNowmid() {
+    return nowmid;
+  }
 
-    public int getShopid() {
-        return shopid;
-    }
+  public void setNowmid(int nowmid) {
+    this.nowmid = nowmid;
+  }
 
-    public void setShopid(int shopid) {
-        this.shopid = shopid;
-    }
 
-    public int getStatus() {
-        return status;
-    }
+  public String getSid() {
+    return sid;
+  }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+  public void setSid(String sid) {
+    this.sid = sid;
+  }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+  public long getInfoid() {
+    return infoid;
+  }
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+  public void setInfoid(long infoid) {
+    this.infoid = infoid;
+  }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+
+  public long getStatus() {
+    return status;
+  }
+
+  public void setStatus(long status) {
+    this.status = status;
+  }
+
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
+  }
+
+
+  public Date getUpdateDate() {
+    return updateDate;
+  }
+
+  public void setUpdateDate(Date updateDate) {
+    this.updateDate = updateDate;
+  }
+
 }
