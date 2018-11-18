@@ -5,6 +5,7 @@ import cn.szvone.mdkj.dao.TagInfoDAO;
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.Tag;
 import cn.szvone.mdkj.entity.TagInfo;
+import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +46,35 @@ public class TagInfoService {
 
     }
 
-    public CommonRes getTagInfo(int id){
+    public CommonRes getTagInfo(int id,int uid){
 
-        TagInfo tagInfo = tagInfoDAO.findById(id);
+        TagInfo tagInfo = tagInfoDAO.findByIdAndUid(id,uid);
 
         return ResultUtil.success(tagInfo);
     }
 
-    public CommonRes editTagInfo(TagInfo tagInfo){
 
+    public CommonRes getMyTagInfo(int page, int limit, User u){
+        List<TagInfo> tagInfos;
+        if (u.getType()==1){
+            tagInfos = tagInfoDAO.getTagInfoListAll((page-1)*limit,limit);
+        }else{
+            tagInfos = tagInfoDAO.getTagInfoList((page-1)*limit,limit,u.getId());
+        }
+
+        return ResultUtil.success(tagInfos);
+
+    }
+
+
+
+
+
+    public CommonRes editTagInfo(TagInfo tagInfo,int uid){
+        TagInfo tagInfo1 = tagInfoDAO.findById((int)tagInfo.getId());
+        if (tagInfo1.getUid()!=uid){
+            throw new AuthException("权限不足");
+        }
         int row = tagInfoDAO.updata(tagInfo);
 
         if (row == 0){
@@ -65,7 +86,7 @@ public class TagInfoService {
     public CommonRes toShare(String sid, String toUid,int meuid){
         TagInfo tagInfo = tagInfoDAO.findBySid(sid);
         if (tagInfo.getUid()!=meuid){
-            throw new AuthException("没有权限");
+            throw new AuthException("权限不足");
         }
 
         String[] uid_sz = toUid.split(",");

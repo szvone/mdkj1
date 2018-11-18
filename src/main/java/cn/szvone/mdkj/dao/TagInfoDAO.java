@@ -24,6 +24,9 @@ public interface TagInfoDAO {
     @Select("select * from tag_info where id=#{id}")
     TagInfo findById(int id);
 
+    @Select("select * from tag_info where id=#{id} and uid = #{uid}")
+    TagInfo findByIdAndUid(@Param("id") int id,@Param("uid") int uid);
+
     // 更新共享用户
     @Update("update tag_info set share=#{share} where sid=#{sid}")
     int updateShare(@Param("sid") String sid, @Param("share") String share);
@@ -31,4 +34,11 @@ public interface TagInfoDAO {
     // 通过uid查询共享的标签
     @Select("select * from tag_info where share like '%[${uid}]%'")
     List<TagInfo> getUserShare(@Param("uid") Long uid);
+
+
+    @Select("select * from tag_info where uid=${uid} limit ${limit},${size}")
+    List<TagInfo> getTagInfoList(@Param("limit") int limit, @Param("size") int size,@Param("uid")int uid);
+
+    @Select("select * from tag_info limit ${limit},${size}")
+    List<TagInfo> getTagInfoListAll(@Param("limit") int limit, @Param("size") int size);
 }

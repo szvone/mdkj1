@@ -448,7 +448,7 @@ public class SwController {
         //return tagInfoService.delTagInfo(id);
     }
 
-    // TODO: 2018/11/18 拉取标签信息需要判断uid
+
     /**
      * 拉取标签信息
      * @param tagid 标签id
@@ -460,10 +460,9 @@ public class SwController {
         if (u == null){
             throw new AuthException("用户未登录");
         }
-        return tagInfoService.getTagInfo(tagid);
+        return tagInfoService.getTagInfo(tagid,u.getId());
     }
 
-    // TODO: 2018/11/18 编辑需要对uid判断
     /**
      * 编辑标签信息
      * @param tagInfo    标签信息
@@ -475,10 +474,24 @@ public class SwController {
         if (u == null){
             throw new AuthException("用户未登录");
         }
-        return tagInfoService.editTagInfo(tagInfo);
+        return tagInfoService.editTagInfo(tagInfo,u.getId());
     }
 
-    // TODO: 2018/11/18 根据拉取用户所有的标签信息
+    /**
+     * 拉取用户所有的标签信息
+     * @param page  获取第几页
+     * @param limit 一页获取几个
+     * @return
+     */
+    @RequestMapping("/getMyTagInfo")
+    public CommonRes getMyTagInfo(int page,int limit,HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        return tagInfoService.getMyTagInfo(page,limit,u);
+    }
+
 
 
     /**
