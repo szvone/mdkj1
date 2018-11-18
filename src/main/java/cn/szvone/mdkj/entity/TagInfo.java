@@ -12,6 +12,15 @@ public class TagInfo {
   private String outarea;
   private String sid;
   private String timeout;
+  private String share;
+
+    public String getShare() {
+        return share;
+    }
+
+    public void setShare(String share) {
+        this.share = share;
+    }
 
     public String getTimeout() {
         return timeout;
@@ -22,8 +31,8 @@ public class TagInfo {
     }
 
     public String getSid() {
-    return sid;
-  }
+        return sid;
+      }
 
   public void setSid(String sid) {
     this.sid = sid;

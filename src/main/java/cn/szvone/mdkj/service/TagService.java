@@ -2,12 +2,10 @@ package cn.szvone.mdkj.service;
 
 import cn.szvone.mdkj.dao.*;
 import cn.szvone.mdkj.dto.CommonRes;
-import cn.szvone.mdkj.entity.Node;
-import cn.szvone.mdkj.entity.Tag;
-import cn.szvone.mdkj.entity.TagHistory;
-import cn.szvone.mdkj.entity.TagInfo;
+import cn.szvone.mdkj.entity.*;
 import cn.szvone.mdkj.utils.AttentionUtil;
 import cn.szvone.mdkj.utils.ResultUtil;
+import com.sun.org.apache.xalan.internal.lib.NodeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,9 @@ public class TagService {
     private NodeDAO nodeDAO;
     @Autowired
     private TagHistoryDAO tagHistoryDAO;
+    @Autowired
+    private TypeDAO typeDAO;
+
 
     public CommonRes setTag(String sids){
         int res = 0;
@@ -57,16 +58,31 @@ public class TagService {
 
         int res = 0;
         for (String sid:sid_sz){
+
+
+
             res += tagDAO.setNowMid(mid,new Date(),sid);
 
             TagInfo tagInfo = tagInfoDAO.findBySid(sid);
-            //入区报警
+            //标签入区报警
             String inMids = tagInfo.getInarea();
             String[] tmp = inMids.split(",");
             for (String inMid:tmp) {
                 if (inMid.equals(mid)){
                     // TODO: 2018/11/18 创建入区报警
-                    attentionDAO.insert(AttentionUtil.in(sid,node.getStatement()));
+                    attentionDAO.insert(AttentionUtil.in(sid,node.getStatement(),(int)tagInfo.getUid()));
+                }
+            }
+
+
+            //标签分类入区报警
+            Type type = typeDAO.findById(tagInfo.getTypeid());
+            String nodeInarea = node.getInarea();
+            String[] tmp1 = nodeInarea.split(",");
+            for (String nodeIn:tmp1) {
+                if (nodeIn.equals(type.getName())){
+                    // TODO: 2018/11/18 创建入区报警
+                    attentionDAO.insert(AttentionUtil.nodein(sid,node.getStatement()));
                 }
             }
 
@@ -91,9 +107,23 @@ public class TagService {
         for (String outMid:tmp1) {
             if (outMid.equals(mid)){
                 // TODO: 2018/11/18 创建离区报警
-                attentionDAO.insert(AttentionUtil.out(sid,node.getStatement()));
+                attentionDAO.insert(AttentionUtil.out(sid,node.getStatement(),(int)tagInfo.getUid()));
             }
         }
+
+
+        //标签分类离开区报警
+        Type type = typeDAO.findById(tagInfo.getTypeid());
+        String nodeOutarea = node.getOutarea();
+        String[] tmp = nodeOutarea.split(",");
+        for (String nodeOut:tmp) {
+            if (nodeOut.equals(type.getName())){
+                // TODO: 2018/11/18 创建离区报警
+                attentionDAO.insert(AttentionUtil.nodeout(sid,node.getStatement()));
+            }
+        }
+
+
         return ResultUtil.success();
     }
 

@@ -9,6 +9,15 @@ public class Attention {
   private long type;
   private String msg;
   private Date date;
+  private int uid;
+
+  public int getUid() {
+    return uid;
+  }
+
+  public void setUid(int uid) {
+    this.uid = uid;
+  }
 
   public Date getDate() {
     return date;

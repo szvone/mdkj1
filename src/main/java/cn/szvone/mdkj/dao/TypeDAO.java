@@ -19,4 +19,7 @@ public interface TypeDAO {
 
     @Select("select * from type")
     List<Type> findAll();
+
+    @Select("select * from type where id=#{id}")
+    Type findById(long id);
 }

@@ -9,6 +9,8 @@ import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TagInfoService {
     @Autowired
@@ -58,6 +60,21 @@ public class TagInfoService {
             return ResultUtil.error(-1,"操作失败");
         }
         return ResultUtil.success();
+    }
+
+    public CommonRes toShare(String sid, String toUid){
+        String[] uid_sz = toUid.split(",");
+        String end_uid = "";
+        for (String uid:uid_sz){
+            end_uid += ("["+uid+"],");
+        }
+        int re = tagInfoDAO.updateShare(sid, end_uid);
+        return ResultUtil.success(re);
+    }
+
+    public CommonRes getShareList(int uid){
+        List<TagInfo> list = tagInfoDAO.getUserShare(Long.valueOf(uid));
+        return ResultUtil.success(list);
     }
 
 }

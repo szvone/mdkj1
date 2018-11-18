@@ -209,14 +209,14 @@ public class SwController {
      * @return
      */
     @RequestMapping("/addNode")
-    public CommonRes addNode(String mid,String statement){
+    public CommonRes addNode(String mid,String statement,String inarea,String outarea){
         if(mid==null || mid.equals("")){
             throw new ArgException("mid不能为空");
         }
         if(statement==null || statement.equals("")){
             throw new ArgException("statement不能为空");
         }
-        return nodeService.addNode(mid,statement);
+        return nodeService.addNode(mid,statement,inarea,outarea);
 
     }
 
@@ -433,6 +433,27 @@ public class SwController {
             throw new ArgException("子机id不能为空");
         }
         return tagHistoryService.getTagHistory(sid);
+    }
+
+    // 设置共享
+    @RequestMapping("/setShare")
+    public CommonRes setShare(String sid, String uids) {
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        if (uids == null || uids.equals("")){
+            throw new ArgException("对象uids不能为空");
+        }
+        return tagInfoService.toShare(sid, uids);
+    }
+
+
+    // 查询共享
+    @RequestMapping("/getShare")
+    public CommonRes getShare() {
+        // todo 从session获取uid
+        int uid = 2;
+        return tagInfoService.getShareList(uid);
     }
 
 }

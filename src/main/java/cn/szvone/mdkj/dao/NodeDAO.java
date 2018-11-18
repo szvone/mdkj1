@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface NodeDAO {
 
-    @Insert({ "insert into node(mid, statement) values(#{mid}, #{statement})" })
+    @Insert({ "insert into node(mid, statement, inarea, outarea) values(#{mid}, #{statement}, #{inarea}, #{outarea})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Node node);
 

@@ -5,14 +5,24 @@ public class Node {
     private int id;
     private String mid;
     private String statement;
+    private String inarea;
+    private String outarea;
 
-    @Override
-    public String toString() {
-        return "node{" +
-                "id=" + id +
-                ", mid='" + mid + '\'' +
-                ", statement='" + statement + '\'' +
-                '}';
+
+    public String getInarea() {
+        return inarea;
+    }
+
+    public void setInarea(String inarea) {
+        this.inarea = inarea;
+    }
+
+    public String getOutarea() {
+        return outarea;
+    }
+
+    public void setOutarea(String outarea) {
+        this.outarea = outarea;
     }
 
     public int getId() {

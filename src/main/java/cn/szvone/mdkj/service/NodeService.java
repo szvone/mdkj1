@@ -15,10 +15,12 @@ public class NodeService {
     @Autowired
     private NodeDAO nodeDAO;
 
-    public CommonRes addNode(String mid,String statement){
+    public CommonRes addNode(String mid,String statement,String inarea,String outarea){
         Node node = new Node();
         node.setMid(mid);
         node.setStatement(statement);
+        node.setInarea(inarea);
+        node.setOutarea(outarea);
         int res = nodeDAO.insert(node);
         return ResultUtil.success(res);
     }
