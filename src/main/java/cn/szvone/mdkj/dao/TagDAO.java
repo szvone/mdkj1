@@ -31,8 +31,8 @@ public interface TagDAO {
     @Update("update tag set status = #{status} where sid = #{sid}")
     int setStatus(@Param("status")int status,@Param("sid")String sid);
 
-    @Update("update tag set infoid = #{infoid} where id = #{id}")
-    int addInfoId(@Param("id")int id,@Param("infoid")int infoid);
+    @Update("update tag set infoid = #{infoid} where sid = #{sid}")
+    int addInfoId(@Param("sid")String sid,@Param("infoid")int infoid);
 
 
     // 查找本母机标签

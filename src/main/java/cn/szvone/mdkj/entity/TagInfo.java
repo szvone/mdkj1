@@ -10,7 +10,24 @@ public class TagInfo {
   private long typeid;
   private String inarea;
   private String outarea;
+  private String sid;
+  private String timeout;
 
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getSid() {
+    return sid;
+  }
+
+  public void setSid(String sid) {
+    this.sid = sid;
+  }
 
   public long getId() {
     return id;

@@ -16,27 +16,36 @@ public class HwController {
 
     /**
      * 录入端，上传标签数据
-     * @param mid       母机ID
      * @param sids      子机ID
-     * @param infoid    商品ID
      * @return
      */
-    @RequestMapping("/setTagInfo")
-    public CommonRes setGoodsInfo(int mid,String sids,int infoid){
-        String val1 = mid + "";
-        String val2 = infoid + "";
-        if(val1 == null || "".equals(val1)){
-            throw new ArgException("mid不能为空");
-        }
-        if(val2 == null || "".equals(val2)){
-            throw new ArgException("shopid不能为空");
-        }
+    @RequestMapping("/setTag")
+    public CommonRes setTag(String sids){
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
         }
 
-        return tagService.setGoodsInfo(mid, sids, infoid);
+        return tagService.setTag( sids);
     }
+
+
+
+    /**
+     * 发现标签不见了，上传数据
+     * @param mid   母机的ID
+     * @param sid   标签id
+     * @return
+     */
+    @RequestMapping("/setChange")
+    public CommonRes setChange(int mid,String sid){
+        if(sid == null || "".equals(sid)){
+            throw new ArgException("sid不能为空");
+        }
+
+        return tagService.setChange(mid, sid);
+    }
+
+
 
     /**
      * 扫描机，上传扫描到的标签数据到服务器

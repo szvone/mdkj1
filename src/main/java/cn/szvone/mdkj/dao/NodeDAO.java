@@ -20,4 +20,7 @@ public interface NodeDAO {
 
     @Delete("delete from node where id=#{id}")
     int deleteNode(int id);
+
+    @Select("select * from node where id=#{id}")
+    Node findById(int id);
 }

@@ -17,12 +17,15 @@ public class TagInfoService {
     private TagDAO tagDAO;
 
 
-    public CommonRes addTagInfo(int tagId, TagInfo tagInfo){
-        Tag tag = tagDAO.findById(tagId);
+    public CommonRes addTagInfo(String tagId, TagInfo tagInfo){
+        Tag tag = tagDAO.findBySid(tagId);
         if (tag.getInfoid()>0){
             return ResultUtil.error(-1,"该标签已被写码");
         }
 
+        // todo 从session获取用户id
+        tagInfo.setUid(2);
+        tagInfo.setSid(tagId);
         int row = tagInfoDAO.insert(tagInfo);
         if (row == 0){
             return ResultUtil.error(-1,"操作失败");

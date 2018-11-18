@@ -29,6 +29,8 @@ public class SwController {
     private TypeService typeService;
     @Autowired
     private TagInfoService tagInfoService;
+    @Autowired
+    private TagHistoryService tagHistoryService;
 
 
 
@@ -340,7 +342,7 @@ public class SwController {
      * @return
      */
     @RequestMapping("/addTagInfo")
-    public CommonRes addTagInfo(int tagid, TagInfo tagInfo){
+    public CommonRes addTagInfo(String tagid, TagInfo tagInfo){
         return tagInfoService.addTagInfo(tagid,tagInfo);
     }
 
@@ -412,6 +414,25 @@ public class SwController {
         }
         CommonRes res = adminService.getMidInfo(mid);
         return res;
+    }
+
+    // 查看当前标签位置
+    @RequestMapping("/getTagLocation")
+    public CommonRes getTagLocation(String sid) {
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        return tagService.getTheTag(sid);
+    }
+
+
+    // 查看标签历史位置
+    @RequestMapping("/getTagHistory")
+    public CommonRes getTagHistory(String sid) {
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        return tagHistoryService.getTagHistory(sid);
     }
 
 }

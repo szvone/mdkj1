@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface TagInfoDAO {
-    @Insert({ "insert into tag_info(name, uid, info, typeid, inarea, outarea) values(#{name}, #{uid}, #{info}, #{typeid}, #{inarea}, #{outarea})" })
+    @Insert({ "insert into tag_info(name, uid, info, typeid, inarea, outarea, sid, timeout) values(#{name}, #{uid}, #{info}, #{typeid}, #{inarea}, #{outarea}, #{sid}, #{timeout})" })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(TagInfo tagInfo);
 
@@ -16,6 +16,9 @@ public interface TagInfoDAO {
 
     @Delete("delete from tag_info where id=#{id}")
     int delete(int id);
+
+    @Select("select * from tag_info where sid=#{sid}")
+    TagInfo findBySid(String sid);
 
     @Select("select * from tag_info where id=#{id}")
     TagInfo findById(int id);
