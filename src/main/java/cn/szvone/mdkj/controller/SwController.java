@@ -95,8 +95,12 @@ public class SwController {
     @RequestMapping("/addUser")
     public CommonRes addUser(String username,String password,String bz, HttpSession session){
         User user = (User) session.getAttribute("user");
+
         if (user==null){
             throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
         }
 
         if (username.equals("") || username == null){
@@ -118,7 +122,16 @@ public class SwController {
      * @return
      */
     @RequestMapping("/delUser")
-    public CommonRes delUser(int id){
+    public CommonRes delUser(int id, HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         try{
             String val = id +"";
             if(val == null || "".equals(val)){
@@ -139,7 +152,16 @@ public class SwController {
      * @return
      */
     @RequestMapping("/getUserList")
-    public CommonRes getUserList(int page,int limit){
+    public CommonRes getUserList(int page,int limit,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         String val1 = page + "";
         String val2 = limit + "";
         if(val1 == null || "".equals(val1)){
@@ -164,7 +186,6 @@ public class SwController {
 
 
     /**
-     * todo 测试
      * 更新用户信息
      * @param username
      * @param password
@@ -175,9 +196,15 @@ public class SwController {
     @RequestMapping("/updateUser")
     public CommonRes updateUser(String username,String password,String bz,HttpSession session) {
         User user = (User) session.getAttribute("user");
+
         if (user==null){
             throw new AuthException("用户未登录");
         }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
+
         if(username==null || username.equals("")){
             throw new ArgException("username不能为空");
         }
@@ -203,13 +230,22 @@ public class SwController {
 
 
     /**
-     * 添加母机
+     * 添加母机(区域)
      * @param mid       母机编号
      * @param statement 母机区域
      * @return
      */
     @RequestMapping("/addNode")
-    public CommonRes addNode(String mid,String statement,String inarea,String outarea){
+    public CommonRes addNode(String mid,String statement,String inarea,String outarea,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         if(mid==null || mid.equals("")){
             throw new ArgException("mid不能为空");
         }
@@ -226,13 +262,20 @@ public class SwController {
      * @return
      */
     @RequestMapping("/getNodes")
-    public CommonRes getNodes(String name){
+    public CommonRes getNodes(String name,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
         return nodeService.getNodes(name);
     }
 
 
     /**
-     * todo 测试
      * 更新母机信息
      * @param id
      * @param mid
@@ -240,7 +283,16 @@ public class SwController {
      * @return
      */
     @RequestMapping("/updateNode")
-    public CommonRes updateNode(int id, String mid, String statement){
+    public CommonRes updateNode(int id, String mid, String statement,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         if(mid==null || mid.equals("")){
             throw new ArgException("mid不能为空");
         }
@@ -265,12 +317,20 @@ public class SwController {
 
     /**
      * 删除母机
-     * todo 测试
      * @param id
      * @return
      */
     @RequestMapping("/deleteNode")
-    public CommonRes deleteNode(int id){
+    public CommonRes deleteNode(int id,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         String val = ""+id;
         if(val==null || val.equals("")) {
             throw new ArgException("id不能为空");
@@ -287,7 +347,6 @@ public class SwController {
 
 
 
-
     /**
      * 增加分类
      * @param name      分类名
@@ -295,7 +354,15 @@ public class SwController {
      * @return
      */
     @RequestMapping("/addType")
-    public CommonRes addType(String name,String statement){
+    public CommonRes addType(String name,String statement,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
         return typeService.addType(name,statement);
     }
 
@@ -305,7 +372,15 @@ public class SwController {
      * @return
      */
     @RequestMapping("/delType")
-    public CommonRes delType(int id){
+    public CommonRes delType(int id,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
         return typeService.delType(id);
     }
 
@@ -326,7 +401,15 @@ public class SwController {
      * @return
      */
     @RequestMapping("/editType")
-    public CommonRes editType(int id,String name,String statement){
+    public CommonRes editType(int id,String name,String statement,HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
         return typeService.editType(id,name,statement);
     }
 
@@ -342,54 +425,177 @@ public class SwController {
      * @return
      */
     @RequestMapping("/addTagInfo")
-    public CommonRes addTagInfo(String tagid, TagInfo tagInfo){
-        return tagInfoService.addTagInfo(tagid,tagInfo);
+    public CommonRes addTagInfo(String tagid, TagInfo tagInfo,HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        return tagInfoService.addTagInfo(tagid,tagInfo,u.getId());
     }
 
     /**
      * 删除标签信息
-     * @param id 分类ID
+     * @param id 标签ID
      * @return
      */
     @RequestMapping("/delTagInfo")
-    public CommonRes delTagInfo(int id){
+    public CommonRes delTagInfo(int id,HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
         return ResultUtil.error(-1,"标签信息不可删除");
         //return tagInfoService.delTagInfo(id);
     }
 
+    // TODO: 2018/11/18 拉取标签信息需要判断uid
     /**
      * 拉取标签信息
      * @param tagid 标签id
      * @return
      */
     @RequestMapping("/getTagInfo")
-    public CommonRes getTagInfo(int tagid){
+    public CommonRes getTagInfo(int tagid,HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
         return tagInfoService.getTagInfo(tagid);
     }
 
+    // TODO: 2018/11/18 编辑需要对uid判断
     /**
      * 编辑标签信息
      * @param tagInfo    标签信息
      * @return
      */
     @RequestMapping("/editTagInfo")
-    public CommonRes editTagInfo(TagInfo tagInfo){
+    public CommonRes editTagInfo(TagInfo tagInfo,HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
         return tagInfoService.editTagInfo(tagInfo);
     }
 
+    // TODO: 2018/11/18 根据拉取用户所有的标签信息
 
 
-
-
-
-    // 获取本母机下的所有正常标签
+    /**
+     * 获取本母机下的所有正常标签
+     * @param mid       母机id
+     * @return
+     */
     @RequestMapping("/areaInfo")
-    public CommonRes getAreaTag(String mid) {
+    public CommonRes getAreaTag(String mid,HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (user==null){
+            throw new AuthException("用户未登录");
+        }
+        if (user.getType()!=1){
+            throw new AuthException("无权限");
+        }
+
         if (mid == null || mid.equals("")){
             throw new ArgException("母机id不能为空");
         }
         return tagService.getAreaTag(mid);
     }
+
+
+    /**
+     * 查看当前标签位置
+     * @param sid 标签sid
+     * @return
+     */
+    @RequestMapping("/getTagLocation")
+    public CommonRes getTagLocation(String sid,HttpSession session) {
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        return tagService.getTheTag(sid,u.getId());
+    }
+
+
+    /**
+     * 查看标签历史位置（轨迹）
+     * @param sid 需要查看的标签sid
+     * @return
+     */
+    @RequestMapping("/getTagHistory")
+    public CommonRes getTagHistory(String sid,HttpSession session) {
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        return tagHistoryService.getTagHistory(sid,u.getId());
+    }
+
+
+
+    /**
+     * 设置标签共享
+     * @param sid       标签sid
+     * @param uids      共享给哪些用户的uid
+     * @return
+     */
+    @RequestMapping("/setShare")
+    public CommonRes setShare(String sid, String uids,HttpSession session) {
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+
+        if (sid == null || sid.equals("")){
+            throw new ArgException("子机id不能为空");
+        }
+        if (uids == null || uids.equals("")){
+            throw new ArgException("对象uids不能为空");
+        }
+        return tagInfoService.toShare(sid, uids, u.getId());
+    }
+
+
+    /**
+     * 查询其他用户共享给本用户的标签
+     * @return
+     */
+    @RequestMapping("/getShare")
+    public CommonRes getShare(HttpSession session) {
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        int uid = u.getId();
+        return tagInfoService.getShareList(uid);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -415,45 +621,4 @@ public class SwController {
         CommonRes res = adminService.getMidInfo(mid);
         return res;
     }
-
-    // 查看当前标签位置
-    @RequestMapping("/getTagLocation")
-    public CommonRes getTagLocation(String sid) {
-        if (sid == null || sid.equals("")){
-            throw new ArgException("子机id不能为空");
-        }
-        return tagService.getTheTag(sid);
-    }
-
-
-    // 查看标签历史位置
-    @RequestMapping("/getTagHistory")
-    public CommonRes getTagHistory(String sid) {
-        if (sid == null || sid.equals("")){
-            throw new ArgException("子机id不能为空");
-        }
-        return tagHistoryService.getTagHistory(sid);
-    }
-
-    // 设置共享
-    @RequestMapping("/setShare")
-    public CommonRes setShare(String sid, String uids) {
-        if (sid == null || sid.equals("")){
-            throw new ArgException("子机id不能为空");
-        }
-        if (uids == null || uids.equals("")){
-            throw new ArgException("对象uids不能为空");
-        }
-        return tagInfoService.toShare(sid, uids);
-    }
-
-
-    // 查询共享
-    @RequestMapping("/getShare")
-    public CommonRes getShare() {
-        // todo 从session获取uid
-        int uid = 2;
-        return tagInfoService.getShareList(uid);
-    }
-
 }

@@ -3,6 +3,7 @@ package cn.szvone.mdkj.service;
 import cn.szvone.mdkj.dao.*;
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.*;
+import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.utils.AttentionUtil;
 import cn.szvone.mdkj.utils.ResultUtil;
 import com.sun.org.apache.xalan.internal.lib.NodeInfo;
@@ -133,7 +134,11 @@ public class TagService {
         return ResultUtil.success(tags);
     }
 
-    public CommonRes getTheTag(String sid) {
+    public CommonRes getTheTag(String sid,int uid) {
+        TagInfo tagInfo = tagInfoDAO.findBySid(sid);
+        if (tagInfo.getUid()!=uid){
+            throw new AuthException("权限不足");
+        }
         Tag tag = tagDAO.findBySid(sid);
         return ResultUtil.success(tag);
     }

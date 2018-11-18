@@ -5,6 +5,7 @@ import cn.szvone.mdkj.dao.TagInfoDAO;
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.Tag;
 import cn.szvone.mdkj.entity.TagInfo;
+import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,13 @@ public class TagInfoService {
     private TagDAO tagDAO;
 
 
-    public CommonRes addTagInfo(String tagId, TagInfo tagInfo){
+    public CommonRes addTagInfo(String tagId, TagInfo tagInfo,int uid){
         Tag tag = tagDAO.findBySid(tagId);
         if (tag.getInfoid()>0){
             return ResultUtil.error(-1,"该标签已被写码");
         }
 
-        // todo 从session获取用户id
-        tagInfo.setUid(2);
+        tagInfo.setUid(uid);
         tagInfo.setSid(tagId);
         int row = tagInfoDAO.insert(tagInfo);
         if (row == 0){
@@ -62,7 +62,12 @@ public class TagInfoService {
         return ResultUtil.success();
     }
 
-    public CommonRes toShare(String sid, String toUid){
+    public CommonRes toShare(String sid, String toUid,int meuid){
+        TagInfo tagInfo = tagInfoDAO.findBySid(sid);
+        if (tagInfo.getUid()!=meuid){
+            throw new AuthException("没有权限");
+        }
+
         String[] uid_sz = toUid.split(",");
         String end_uid = "";
         for (String uid:uid_sz){

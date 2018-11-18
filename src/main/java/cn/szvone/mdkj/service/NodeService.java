@@ -37,7 +37,6 @@ public class NodeService {
 
     public CommonRes deleteNode(int id){
         int res = nodeDAO.deleteNode(id);
-        // todo 删除tag表中对应的子机数据
         return ResultUtil.success(res);
     }
 

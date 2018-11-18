@@ -35,20 +35,9 @@ public interface TagDAO {
     int addInfoId(@Param("sid")String sid,@Param("infoid")int infoid);
 
 
-    // 查找本母机标签
-    @Select("select * from tag where mid = #{mid} and nowmid = #{mid}")
-    List<Tag> findByMid1(@Param("mid")String mid);
-
-    // 查找非本母机标签
-    @Select("select * from tag where mid = #{mid} and nowmid != #{mid} and nowmid != -1")
-    List<Tag> findByMid2(@Param("mid")String mid);
-
-    // 查找未扫描的标签
-    @Select("select * from tag where mid = #{mid} and nowmid = -1")
-    List<Tag> findByMid3(@Param("mid")String mid);
 
     // 查找本母机的所有标签
-    @Select("select * from tag where mid = #{mid} and nowmid != -1")
+    @Select("select * from tag where nowmid = #{mid}")
     List<Tag> findByMid4(@Param("mid")String mid);
 
 }

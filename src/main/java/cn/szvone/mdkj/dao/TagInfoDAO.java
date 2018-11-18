@@ -20,6 +20,7 @@ public interface TagInfoDAO {
     @Select("select * from tag_info where sid=#{sid}")
     TagInfo findBySid(String sid);
 
+
     @Select("select * from tag_info where id=#{id}")
     TagInfo findById(int id);
 
