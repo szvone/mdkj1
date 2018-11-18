@@ -1,9 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mysql://148.70.101.149:3306/mdkj01?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://148.70.101.149:3306/mdkj01?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: mdkj01
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 server:
   port: 8081
 
