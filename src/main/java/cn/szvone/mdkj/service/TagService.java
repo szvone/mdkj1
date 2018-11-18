@@ -50,10 +50,10 @@ public class TagService {
 
 
     //重要逻辑代码  入区报警
-    public CommonRes setAreaInfo(int mid,String sids){
+    public CommonRes setAreaInfo(String mid,String sids){
 
         String[] sid_sz = sids.split(",");
-        Node node = nodeDAO.findById(mid);
+        Node node = nodeDAO.findByMid(mid);
 
         int res = 0;
         for (String sid:sid_sz){
@@ -64,7 +64,7 @@ public class TagService {
             String inMids = tagInfo.getInarea();
             String[] tmp = inMids.split(",");
             for (String inMid:tmp) {
-                if (inMid.equals(String.valueOf(mid))){
+                if (inMid.equals(mid)){
                     // TODO: 2018/11/18 创建入区报警
                     attentionDAO.insert(AttentionUtil.in(sid,node.getStatement()));
                 }
@@ -83,13 +83,13 @@ public class TagService {
     }
 
     //离区报警
-    public CommonRes setChange(int mid,String sid){
-        Node node = nodeDAO.findById(mid);
+    public CommonRes setChange(String mid,String sid){
+        Node node = nodeDAO.findByMid(mid);
         TagInfo tagInfo = tagInfoDAO.findBySid(sid);
         String outMids = tagInfo.getOutarea();
         String[] tmp1 = outMids.split(",");
         for (String outMid:tmp1) {
-            if (outMid.equals(String.valueOf(mid))){
+            if (outMid.equals(mid)){
                 // TODO: 2018/11/18 创建离区报警
                 attentionDAO.insert(AttentionUtil.out(sid,node.getStatement()));
             }

@@ -23,4 +23,7 @@ public interface NodeDAO {
 
     @Select("select * from node where id=#{id}")
     Node findById(int id);
+
+    @Select("select * from node where mid=#{mid}")
+    Node findByMid(String id);
 }

@@ -37,7 +37,7 @@ public class HwController {
      * @return
      */
     @RequestMapping("/setChange")
-    public CommonRes setChange(int mid,String sid){
+    public CommonRes setChange(String mid,String sid){
         if(sid == null || "".equals(sid)){
             throw new ArgException("sid不能为空");
         }
@@ -54,18 +54,12 @@ public class HwController {
      * @return
      */
     @RequestMapping("/setAreaInfo")
-    public CommonRes setAreaInfo(int mid,String sids){
-        String val1 = mid + "";
-        if(val1 == null || "".equals(val1)){
+    public CommonRes setAreaInfo(String mid,String sids){
+        if(mid == null || "".equals(mid)){
             throw new ArgException("mid不能为空");
         }
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
-        }
-        try{
-            mid = Integer.valueOf(mid);
-        } catch (Exception e){
-            throw new ArgException("mid参数类型出错");
         }
 
         return tagService.setAreaInfo(mid,sids);

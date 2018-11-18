@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface UserDAO {
-
     @Select("select * from user where username = #{username}")
     User find(@Param("username")String username);
 

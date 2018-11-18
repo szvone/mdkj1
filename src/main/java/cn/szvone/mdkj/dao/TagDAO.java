@@ -26,7 +26,7 @@ public interface TagDAO {
     int insert(Tag tag);
 
     @Update("update tag set nowmid = #{mid},updateDate = #{updateDate} where sid = #{sid}")
-    int setNowMid(@Param("mid")int mid, @Param("updateDate")Date updateDate, @Param("sid")String sid);
+    int setNowMid(@Param("mid")String mid, @Param("updateDate")Date updateDate, @Param("sid")String sid);
 
     @Update("update tag set status = #{status} where sid = #{sid}")
     int setStatus(@Param("status")int status,@Param("sid")String sid);
