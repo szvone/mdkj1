@@ -22,6 +22,7 @@ public class ExceptionHandle {
         if (e.getClass().getName().indexOf("AuthException")!=-1){
             return ResultUtil.error(-1,e.getMessage());
         }
+        e.printStackTrace();
         return ResultUtil.error(500,"系统内部错误，错误类型:"+e.getClass().getName());
     }
 }

@@ -31,7 +31,8 @@ public class SwController {
     private TagInfoService tagInfoService;
     @Autowired
     private TagHistoryService tagHistoryService;
-
+    @Autowired
+    private AttentionService attentionService;
 
 
     /**
@@ -223,12 +224,6 @@ public class SwController {
 
 
 
-
-
-
-
-
-
     /**
      * 添加母机(区域)
      * @param mid       母机编号
@@ -268,9 +263,9 @@ public class SwController {
         if (user==null){
             throw new AuthException("用户未登录");
         }
-        if (user.getType()!=1){
-            throw new AuthException("无权限");
-        }
+//        if (user.getType()!=1){
+//            throw new AuthException("无权限");
+//        }
         return nodeService.getNodes(name);
     }
 
@@ -415,9 +410,6 @@ public class SwController {
 
 
 
-
-
-
     /**
      * 扫码设置标签信息
      * @param tagid      标签ID
@@ -506,9 +498,9 @@ public class SwController {
         if (user==null){
             throw new AuthException("用户未登录");
         }
-        if (user.getType()!=1){
-            throw new AuthException("无权限");
-        }
+//        if (user.getType()!=1){
+//            throw new AuthException("无权限");
+//        }
 
         if (mid == null || mid.equals("")){
             throw new ArgException("母机id不能为空");
@@ -593,10 +585,53 @@ public class SwController {
         return tagInfoService.getShareList(uid);
     }
 
+    /**
+     * 获取当前用户所有的报警记录
+     * @param session
+     * @return
+     */
+    @RequestMapping("/getAttentionByUid")
+    public CommonRes getAttentionByUid(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        int uid = u.getId();
+        return attentionService.getAttentionByUid(uid);
+    }
 
+    /**
+     * 获取指定标签的报警记录
+     * @param session
+     * @param sid 标签id
+     * @return
+     */
+    @RequestMapping("/getAttentionBySid")
+    public CommonRes getAttentionBySid(HttpSession session,String sid){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        int uid = u.getId();
+        return attentionService.getAttentionBySid(sid,uid);
+    }
 
-
-
+    /**
+     * 设置报警信息为已读
+     * @param session
+     * @param id        报警信息id
+     * @param state     状态 传入1设为已读
+     * @return
+     */
+    @RequestMapping("/setAttentionState")
+    public CommonRes setAttentionState(HttpSession session,int id,int state){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        int uid = u.getId();
+        return attentionService.setAttentionState(id,state);
+    }
 
 
 

@@ -28,6 +28,7 @@ public class TypeService {
         return ResultUtil.success();
     }
 
+
     public CommonRes delType(int id){
 
         int row = typeDAO.delete(id);
@@ -37,6 +38,7 @@ public class TypeService {
 
         return ResultUtil.success();
     }
+
 
     public CommonRes getTypes(){
 

@@ -7,7 +7,7 @@ public class Tag {
 
   private long id;
   private int mid;
-  private int nowmid;
+  private String nowmid;
   private String sid;
   private long infoid;
   private long status;
@@ -33,14 +33,13 @@ public class Tag {
   }
 
 
-  public int getNowmid() {
+  public String getNowmid() {
     return nowmid;
   }
 
-  public void setNowmid(int nowmid) {
+  public void setNowmid(String nowmid) {
     this.nowmid = nowmid;
   }
-
 
   public String getSid() {
     return sid;

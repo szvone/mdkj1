@@ -7,7 +7,16 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
 server:
+  port: 8082
+  ssl:
+    key-store: classpath:mijin.cubaby.cn.jks
+    key-store-type: JKS
+    key-store-password: mijin666
+    protocol: TLS
+
+http:
   port: 8081
 
 logging:

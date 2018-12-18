@@ -11,7 +11,7 @@ public class AttentionUtil {
         attention.setType(1);
         attention.setSid(sid);
         attention.setUid(uid);
-        attention.setMsg("【入区报警】该标签进入"+m+"区域，请知悉！");
+        attention.setMsg(m);
         attention.setDate(new Date());
         return attention;
     }
@@ -21,7 +21,7 @@ public class AttentionUtil {
         attention.setType(2);
         attention.setSid(sid);
         attention.setUid(uid);
-        attention.setMsg("【离区报警】该标签离开"+m+"区域，请知悉！");
+        attention.setMsg(m);
         attention.setDate(new Date());
         return attention;
     }
@@ -31,7 +31,7 @@ public class AttentionUtil {
         attention.setType(1);
         attention.setSid(sid);
         attention.setUid(1);
-        attention.setMsg("【区域入区报警】该标签进入"+m+"区域，请知悉！");
+        attention.setMsg(m);
         attention.setDate(new Date());
         return attention;
     }
@@ -41,7 +41,7 @@ public class AttentionUtil {
         attention.setType(2);
         attention.setSid(sid);
         attention.setUid(1);
-        attention.setMsg("【区域离区报警】该标签离开"+m+"区域，请知悉！");
+        attention.setMsg(m);
         attention.setDate(new Date());
         return attention;
     }

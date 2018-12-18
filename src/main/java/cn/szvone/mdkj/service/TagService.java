@@ -3,6 +3,7 @@ package cn.szvone.mdkj.service;
 import cn.szvone.mdkj.dao.*;
 import cn.szvone.mdkj.dto.CommonRes;
 import cn.szvone.mdkj.entity.*;
+import cn.szvone.mdkj.execptions.ArgException;
 import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.utils.AttentionUtil;
 import cn.szvone.mdkj.utils.ResultUtil;
@@ -29,13 +30,14 @@ public class TagService {
     private TypeDAO typeDAO;
 
 
+
     public CommonRes setTag(String sids){
         int res = 0;
         String[] sid_sz = sids.split(",");
         for (String sid:sid_sz){
             Tag tag = new Tag();
             tag.setMid(-1);
-            tag.setNowmid(-1);
+            tag.setNowmid("-1");
             tag.setSid(sid);
             tag.setInfoid(-1);
             tag.setStatus(1);
@@ -56,15 +58,18 @@ public class TagService {
 
         String[] sid_sz = sids.split(",");
         Node node = nodeDAO.findByMid(mid);
-
+        if (node==null){
+            throw new ArgException("母机ID不存在");
+        }
         int res = 0;
         for (String sid:sid_sz){
-
-
-
             res += tagDAO.setNowMid(mid,new Date(),sid);
 
             TagInfo tagInfo = tagInfoDAO.findBySid(sid);
+
+            if (tagInfo==null){
+                throw new ArgException("该标签未被写码");
+            }
             //标签入区报警
             String inMids = tagInfo.getInarea();
             String[] tmp = inMids.split(",");
@@ -95,12 +100,11 @@ public class TagService {
             tagHistoryDAO.setTagHistory(t);
         }
 
-
         return ResultUtil.success(res);
     }
 
     //离区报警
-    public CommonRes setChange(String mid,String sid){
+    public CommonRes setChange(String mid, String sid){
         Node node = nodeDAO.findByMid(mid);
         TagInfo tagInfo = tagInfoDAO.findBySid(sid);
         String outMids = tagInfo.getOutarea();

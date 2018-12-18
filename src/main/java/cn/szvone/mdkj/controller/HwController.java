@@ -1,11 +1,15 @@
 package cn.szvone.mdkj.controller;
 
 import cn.szvone.mdkj.dto.CommonRes;
+import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.ArgException;
+import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/hw")
@@ -24,7 +28,6 @@ public class HwController {
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
         }
-
         return tagService.setTag( sids);
     }
 
@@ -63,6 +66,25 @@ public class HwController {
         }
 
         return tagService.setAreaInfo(mid,sids);
+    }
+
+    /**
+     * 获取当前母机下所有的标签信息
+     * @param mid
+     * @param session
+     * @return
+     */
+    @RequestMapping("/areaInfo")
+    public CommonRes getAreaTag(String mid,HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+//        if (user==null){
+//            throw new AuthException("用户未登录");
+//        }
+        if (mid == null || mid.equals("")){
+            throw new ArgException("母机id不能为空");
+        }
+        return tagService.getAreaTag(mid);
     }
 
 }

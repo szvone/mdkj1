@@ -23,6 +23,9 @@ public class TagInfoService {
 
     public CommonRes addTagInfo(String tagId, TagInfo tagInfo,int uid){
         Tag tag = tagDAO.findBySid(tagId);
+        if(tag==null) {
+            return ResultUtil.error(-1,"标签不存在");
+        }
         if (tag.getInfoid()>0){
             return ResultUtil.error(-1,"该标签已被写码");
         }
@@ -37,6 +40,7 @@ public class TagInfoService {
         return ResultUtil.success();
     }
 
+
     public CommonRes delTagInfo(int id){
         int row = tagInfoDAO.delete(id);
         if (row == 0){
@@ -45,6 +49,7 @@ public class TagInfoService {
         return ResultUtil.success();
 
     }
+
 
     public CommonRes getTagInfo(int id,int uid){
 
@@ -67,9 +72,6 @@ public class TagInfoService {
     }
 
 
-
-
-
     public CommonRes editTagInfo(TagInfo tagInfo,int uid){
         TagInfo tagInfo1 = tagInfoDAO.findById((int)tagInfo.getId());
         if (tagInfo1.getUid()!=uid){
@@ -83,20 +85,16 @@ public class TagInfoService {
         return ResultUtil.success();
     }
 
+
     public CommonRes toShare(String sid, String toUid,int meuid){
         TagInfo tagInfo = tagInfoDAO.findBySid(sid);
         if (tagInfo.getUid()!=meuid){
             throw new AuthException("权限不足");
         }
-
-        String[] uid_sz = toUid.split(",");
-        String end_uid = "";
-        for (String uid:uid_sz){
-            end_uid += ("["+uid+"],");
-        }
-        int re = tagInfoDAO.updateShare(sid, end_uid);
+        int re = tagInfoDAO.updateShare(sid, toUid);
         return ResultUtil.success(re);
     }
+
 
     public CommonRes getShareList(int uid){
         List<TagInfo> list = tagInfoDAO.getUserShare(Long.valueOf(uid));
