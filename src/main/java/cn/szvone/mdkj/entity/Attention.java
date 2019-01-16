@@ -10,6 +10,15 @@ public class Attention {
   private String msg;
   private Date date;
   private int uid;
+  private String mid;
+
+  public String getMid() {
+    return mid;
+  }
+
+  public void setMid(String mid) {
+    this.mid = mid;
+  }
 
   private int state;
 

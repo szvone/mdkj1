@@ -85,7 +85,7 @@ public class TagService {
             for (String inMid:tmp) {
                 if (inMid.equals(mid)){
                     // TODO: 2018/11/18 创建入区报警
-                    attentionDAO.insert(AttentionUtil.in(sid,node.getStatement(),(int)tagInfo.getUid()));
+                    attentionDAO.insert(AttentionUtil.in(sid, node.getStatement(), (int)tagInfo.getUid()),mid);
                 }
             }
 
@@ -97,7 +97,7 @@ public class TagService {
             for (String nodeIn:tmp1) {
                 if (nodeIn.equals(type.getName())){
                     // TODO: 2018/11/18 创建入区报警
-                    attentionDAO.insert(AttentionUtil.nodein(sid,node.getStatement(),(int)tagInfo.getUid()));
+                    attentionDAO.insert(AttentionUtil.nodein(sid,node.getStatement(),(int)tagInfo.getUid()),mid);
                 }
             }
 
@@ -137,7 +137,7 @@ public class TagService {
             for (String outMid:tmp1) {
                 if (outMid.equals(mid)){
                     // TODO: 2018/11/18 创建离区报警
-                    attentionDAO.insert(AttentionUtil.out(sid,node.getStatement(),(int)tagInfo.getUid()));
+                    attentionDAO.insert(AttentionUtil.out(sid,node.getStatement(),(int)tagInfo.getUid()),mid);
                 }
             }
 
@@ -149,7 +149,7 @@ public class TagService {
             for (String nodeOut:tmp) {
                 if (nodeOut.equals(type.getName())){
                     // TODO: 2018/11/18 创建离区报警
-                    attentionDAO.insert(AttentionUtil.nodeout(sid,node.getStatement(),(int)tagInfo.getUid()));
+                    attentionDAO.insert(AttentionUtil.nodeout(sid,node.getStatement(),(int)tagInfo.getUid()),mid);
                 }
             }
 

@@ -591,13 +591,13 @@ public class SwController {
      * @return
      */
     @RequestMapping("/getAttentionByUid")
-    public CommonRes getAttentionByUid(HttpSession session){
+    public CommonRes getAttentionByUid(HttpSession session, String mid){
         User u = (User) session.getAttribute("user");
         if (u == null){
             throw new AuthException("用户未登录");
         }
         int uid = u.getId();
-        return attentionService.getAttentionByUid(uid);
+        return attentionService.getAttentionByUid(uid, mid);
     }
 
     /**

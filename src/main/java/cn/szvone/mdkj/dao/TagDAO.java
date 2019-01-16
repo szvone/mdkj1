@@ -34,7 +34,7 @@ public interface TagDAO {
     @Update("update tag set infoid = #{infoid} where sid = #{sid}")
     int addInfoId(@Param("sid")String sid,@Param("infoid")int infoid);
 
-    @Select("select * from tag where status=#{status}")
+    @Select("select * from tag where nowmid=#{status}")
     List<Tag> getTagByStatus(@Param("status") String status);
 
 

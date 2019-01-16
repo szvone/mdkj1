@@ -15,8 +15,13 @@ public class AttentionService {
     @Autowired
     private AttentionDAO attentionDAO;
 
-    public CommonRes getAttentionByUid(int uid){
-        return ResultUtil.success(attentionDAO.getAttentionByUid(uid));
+    public CommonRes getAttentionByUid(int uid, String mid){
+        if(mid.equals("") || mid==null){
+            return ResultUtil.success(attentionDAO.getAttentionByUid(uid));
+        } else {
+            return ResultUtil.success(attentionDAO.getAttentionByUid1(uid, mid));
+        }
+
     }
     public CommonRes getAttentionBySid(String sid,int uid){
         return ResultUtil.success(attentionDAO.getAttentionBySid(sid,uid));
