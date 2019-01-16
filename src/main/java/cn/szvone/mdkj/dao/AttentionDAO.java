@@ -6,7 +6,7 @@ import java.util.List;
 
 @Mapper
 public interface AttentionDAO {
-    @Insert({ "insert into Attention(sid, type, msg, date, state, uid, mid) values(#{sid}, #{type}, #{msg}, #{date}, 0, #{uid}), #{mid}" })
+    @Insert({ "insert into Attention(sid, type, msg, date, state, uid, mid) values(#{sid}, #{type}, #{msg}, #{date}, 0, #{uid}, #{mid}")})
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Attention attention);
 
