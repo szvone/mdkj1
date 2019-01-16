@@ -13,6 +13,15 @@ public class TagInfo {
   private String sid;
   private String timeout;
   private String share;
+  private String mid;
+
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
 
     public String getShare() {
         return share;

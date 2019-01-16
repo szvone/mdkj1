@@ -26,21 +26,21 @@ public class AttentionUtil {
         return attention;
     }
 
-    public static Attention nodein(String sid,String m){
+    public static Attention nodein(String sid,String m,int uid){
         Attention attention = new Attention();
         attention.setType(1);
         attention.setSid(sid);
-        attention.setUid(1);
+        attention.setUid(uid);
         attention.setMsg(m);
         attention.setDate(new Date());
         return attention;
     }
 
-    public static Attention nodeout(String sid,String m){
+    public static Attention nodeout(String sid,String m,int uid){
         Attention attention = new Attention();
         attention.setType(2);
         attention.setSid(sid);
-        attention.setUid(1);
+        attention.setUid(uid);
         attention.setMsg(m);
         attention.setDate(new Date());
         return attention;

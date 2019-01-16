@@ -634,12 +634,31 @@ public class SwController {
     }
 
 
+    /**
+     * 通过标签名查询标签
+     * @param session
+     * @param name
+     * @return
+     */
+    @RequestMapping("/findTagInfoByName")
+    public CommonRes findTagInfoByName(HttpSession session,String name){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            throw new AuthException("用户未登录");
+        }
+        int uid = u.getId();
+        return tagInfoService.findTagInfoByName(name);
+    }
 
 
-
-
-
-
+    /**
+     * 获取未录入的标签
+     * @return
+     */
+    @RequestMapping("/getTagList")
+    public CommonRes getTagList(){
+        return tagService.getTagListService("-1");
+    }
 
 
 

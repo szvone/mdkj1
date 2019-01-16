@@ -17,9 +17,9 @@ public interface TypeDAO {
     @Delete("delete from type where id=#{id}")
     int delete(int id);
 
-    @Select("select * from type")
+    @Select("select * from type order by id desc")
     List<Type> findAll();
 
-    @Select("select * from type where id=#{id}")
+    @Select("select * from type where id=#{id} order by id desc")
     Type findById(long id);
 }

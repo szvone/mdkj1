@@ -10,10 +10,10 @@ public interface AttentionDAO {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Attention attention);
 
-    @Select("select * from Attention where uid = #{uid}")
+    @Select("select * from Attention where uid = #{uid} order by id desc")
     List<Attention> getAttentionByUid(@Param("uid") int uid);
 
-    @Select("select * from Attention where sid = #{sid},uid = #{uid}")
+    @Select("select * from Attention where sid = #{sid},uid = #{uid} order by id desc")
     List<Attention> getAttentionBySid(@Param("sid") String sid,@Param("uid") int uid);
 
     @Update("update Attention set state=#{state} where id=#{id}")

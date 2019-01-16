@@ -14,7 +14,7 @@ import java.util.List;
 public interface TagHistoryDAO {
 
     // 通过标签id获取该标签的所有记录
-    @Select("select * from tag_history where sid = #{sid}")
+    @Select("select * from tag_history where sid = #{sid} order by id desc")
     List<TagHistory> getTagHistory(@Param("sid") String sid);
 
     // 插入标签的最新记录

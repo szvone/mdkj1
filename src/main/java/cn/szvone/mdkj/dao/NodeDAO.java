@@ -12,7 +12,7 @@ public interface NodeDAO {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Node node);
 
-    @Select("select * from node where statement like '%${name}%'")
+    @Select("select * from node where statement like '%${name}%' order by id desc")
     List<Node> getNodes(@Param("name") String name);
 
     @Update("update node set statement=#{statement}, mid=#{mid} where id=#{id}")
@@ -21,9 +21,9 @@ public interface NodeDAO {
     @Delete("delete from node where id=#{id}")
     int deleteNode(int id);
 
-    @Select("select * from node where id=#{id}")
+    @Select("select * from node where id=#{id} order by id desc")
     Node findById(int id);
 
-    @Select("select * from node where mid=#{mid}")
+    @Select("select * from node where mid=#{mid}  order by id desc")
     Node findByMid(String id);
 }

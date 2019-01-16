@@ -49,7 +49,11 @@ public class TagInfoService {
         return ResultUtil.success();
 
     }
+    public CommonRes findTagInfoByName(String name){
 
+        List<TagInfo> tagInfos = tagInfoDAO.findTagInfoByName(name);
+        return ResultUtil.success(tagInfos);
+    }
 
     public CommonRes getTagInfo(int id,int uid){
 

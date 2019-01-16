@@ -9,16 +9,16 @@ import java.util.List;
 @Mapper
 public interface TagDAO {
 
-    @Select("select * from tag where id = #{id}")
+    @Select("select * from tag where id = #{id} order by id desc")
     Tag findById(@Param("id")int id);
 
-    @Select("select * from tag where mid = #{mid}")
+    @Select("select * from tag where mid = #{mid} order by id desc")
     List<Tag> findByMid(@Param("mid")String mid);
 
-    @Select("select * from tag where sid = #{sid}")
+    @Select("select * from tag where sid = #{sid} order by id desc")
     Tag findBySid(@Param("sid")String sid);
 
-    @Select("select * from tag where sn = #{sn}")
+    @Select("select * from tag where sn = #{sn} order by id desc")
     List<Tag> findBySn(@Param("sn")String sn);
 
     @Insert({ "insert into tag(mid, nowmid, sid, infoid, status, createDate, updateDate) values(#{mid}, #{nowmid}, #{sid}, #{infoid}, #{status}, #{createDate}, #{updateDate})" })
@@ -34,10 +34,13 @@ public interface TagDAO {
     @Update("update tag set infoid = #{infoid} where sid = #{sid}")
     int addInfoId(@Param("sid")String sid,@Param("infoid")int infoid);
 
+    @Select("select * from tag where status=#{status}")
+    List<Tag> getTagByStatus(@Param("status") String status);
 
 
     // 查找本母机的所有标签
-    @Select("select * from tag where nowmid = #{mid}")
+    @Select("select * from tag where nowmid = #{mid}  order by id desc")
     List<Tag> findByMid4(@Param("mid")String mid);
+
 
 }

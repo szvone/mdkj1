@@ -63,13 +63,22 @@ public class TagService {
         }
         int res = 0;
         for (String sid:sid_sz){
+            sid = sid.substring(0,18);
+
             res += tagDAO.setNowMid(mid,new Date(),sid);
+
+
 
             TagInfo tagInfo = tagInfoDAO.findBySid(sid);
 
             if (tagInfo==null){
-                throw new ArgException("该标签未被写码");
+                //throw new ArgException("该标签未被写码");
+                continue;
             }
+
+            tagInfoDAO.setNowMid(mid, sid);
+
+
             //标签入区报警
             String inMids = tagInfo.getInarea();
             String[] tmp = inMids.split(",");
@@ -88,7 +97,7 @@ public class TagService {
             for (String nodeIn:tmp1) {
                 if (nodeIn.equals(type.getName())){
                     // TODO: 2018/11/18 创建入区报警
-                    attentionDAO.insert(AttentionUtil.nodein(sid,node.getStatement()));
+                    attentionDAO.insert(AttentionUtil.nodein(sid,node.getStatement(),(int)tagInfo.getUid()));
                 }
             }
 
@@ -104,33 +113,58 @@ public class TagService {
     }
 
     //离区报警
-    public CommonRes setChange(String mid, String sid){
+    public CommonRes setChange(String mid, String sids){
+
+        String[] sid_sz = sids.split(",");
         Node node = nodeDAO.findByMid(mid);
-        TagInfo tagInfo = tagInfoDAO.findBySid(sid);
-        String outMids = tagInfo.getOutarea();
-        String[] tmp1 = outMids.split(",");
-        for (String outMid:tmp1) {
-            if (outMid.equals(mid)){
-                // TODO: 2018/11/18 创建离区报警
-                attentionDAO.insert(AttentionUtil.out(sid,node.getStatement(),(int)tagInfo.getUid()));
+        if (node==null){
+            throw new ArgException("母机ID不存在");
+        }
+        int res = 0;
+        for (String sid:sid_sz){
+            sid = sid.substring(0,18);
+            TagInfo tagInfo = tagInfoDAO.findBySid(sid);
+            if (tagInfo==null){
+                //throw new ArgException("该标签未被写码");
+                continue;
             }
+            res+=tagInfoDAO.setNowMid(null, sid);
+
+            tagDAO.setNowMid("-1",new Date(), sid);
+
+            String outMids = tagInfo.getOutarea();
+            String[] tmp1 = outMids.split(",");
+            for (String outMid:tmp1) {
+                if (outMid.equals(mid)){
+                    // TODO: 2018/11/18 创建离区报警
+                    attentionDAO.insert(AttentionUtil.out(sid,node.getStatement(),(int)tagInfo.getUid()));
+                }
+            }
+
+
+            //标签分类离开区报警
+            Type type = typeDAO.findById(tagInfo.getTypeid());
+            String nodeOutarea = node.getOutarea();
+            String[] tmp = nodeOutarea.split(",");
+            for (String nodeOut:tmp) {
+                if (nodeOut.equals(type.getName())){
+                    // TODO: 2018/11/18 创建离区报警
+                    attentionDAO.insert(AttentionUtil.nodeout(sid,node.getStatement(),(int)tagInfo.getUid()));
+                }
+            }
+
         }
 
 
-        //标签分类离开区报警
-        Type type = typeDAO.findById(tagInfo.getTypeid());
-        String nodeOutarea = node.getOutarea();
-        String[] tmp = nodeOutarea.split(",");
-        for (String nodeOut:tmp) {
-            if (nodeOut.equals(type.getName())){
-                // TODO: 2018/11/18 创建离区报警
-                attentionDAO.insert(AttentionUtil.nodeout(sid,node.getStatement()));
-            }
-        }
 
-
-        return ResultUtil.success();
+        return ResultUtil.success(res);
     }
+
+    public CommonRes getTagListService(String status) {
+        List<Tag> tags = tagDAO.getTagByStatus(status);
+        return ResultUtil.success(tags);
+    }
+
 
 
     public CommonRes getAreaTag(String mid) {

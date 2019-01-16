@@ -5,6 +5,7 @@ import cn.szvone.mdkj.entity.User;
 import cn.szvone.mdkj.execptions.ArgException;
 import cn.szvone.mdkj.execptions.AuthException;
 import cn.szvone.mdkj.service.TagService;
+import cn.szvone.mdkj.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,8 @@ public class HwController {
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
         }
+        sids = sids.replaceAll("@","");
+        sids = sids.replaceAll(" ","");
         return tagService.setTag( sids);
     }
 
@@ -36,16 +39,17 @@ public class HwController {
     /**
      * 发现标签不见了，上传数据
      * @param mid   母机的ID
-     * @param sid   标签id
+     * @param sids   标签id
      * @return
      */
     @RequestMapping("/setChange")
-    public CommonRes setChange(String mid,String sid){
-        if(sid == null || "".equals(sid)){
-            throw new ArgException("sid不能为空");
+    public CommonRes setChange(String mid,String sids){
+        if(sids == null || "".equals(sids)){
+            throw new ArgException("sids不能为空");
         }
-
-        return tagService.setChange(mid, sid);
+        sids = sids.replaceAll("@","");
+        sids = sids.replaceAll(" ","");
+        return tagService.setChange(mid, sids);
     }
 
 
@@ -64,7 +68,9 @@ public class HwController {
         if(sids == null || "".equals(sids)){
             throw new ArgException("sids不能为空");
         }
-
+        sids = sids.replaceAll("@","");
+        sids = sids.replaceAll(" ","");
+        System.out.println(sids);
         return tagService.setAreaInfo(mid,sids);
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface UserDAO {
-    @Select("select * from user where username = #{username}")
+    @Select("select * from user where username = #{username} order by id desc")
     User find(@Param("username")String username);
 
     @Delete("delete from user where id = #{id}")
@@ -17,7 +17,7 @@ public interface UserDAO {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(User user);
 
-    @Select("select * from user limit ${limit},${size}")
+    @Select("select * from user  order by id desc limit ${limit},${size}")
     List<User> getUserList(@Param("limit") int limit, @Param("size") int size);
 
     @Update("update user set username=#{username}, password=#{password}, statement=#{statement} where id=#{id}")
